@@ -1,0 +1,12 @@
+<?php
+/** @var \Codilar\HelloWorld\Block\Hello $block */
+?>
+
+<div class="hello-message">
+    <h1>Hello, <?= $block->escapeHtml($block->getCustomerName()) ?>!</h1>
+    <p><?= $block->escapeHtml($block->getDescription()) ?></p>
+    <p>
+        Current Time:
+        <?= $block->escapeHtml($block->getCurrentTime()) ?>
+    </p>
+</div>

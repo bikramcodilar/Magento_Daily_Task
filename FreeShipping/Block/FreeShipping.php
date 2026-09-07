@@ -1,0 +1,24 @@
+<?php
+namespace Codilar\FreeShipping\Block;
+
+use Magento\Framework\App\Config\ScopeConfigInterface;
+use Magento\Framework\View\Element\Template;
+
+class FreeShipping extends Template
+{
+    private const string XML_PATH_THRESHOLD = 'codilar_freeshipping/general/threshold';
+
+    public function __construct(
+        private readonly ScopeConfigInterface $scopeConfig,
+        Template\Context $context,
+        array $data = []
+    ) {
+        parent::__construct($context, $data);
+    }
+    public function getThreshold(): float
+    {
+        return (float) $this->scopeConfig->getValue(
+            self::XML_PATH_THRESHOLD
+        );
+    }
+}

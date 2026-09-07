@@ -1,0 +1,8 @@
+<?php
+/** @var \Codilar\HelloWorld\Block\First $block */
+/** @var \Magento\Framework\Escaper $escaper */
+?>
+
+<div class="hello-message">
+    <p><?= $escaper->escapeHtml($block->getDescription()) ?></p>
+</div>

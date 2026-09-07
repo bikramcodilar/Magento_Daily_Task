@@ -1,0 +1,34 @@
+<?php
+/** @var \Codilar\Faq\Block\Faq $block */
+/** @var \Magento\Framework\Escaper $escaper */
+$faqs = $block->getFaqs();
+?>
+
+<div class="faq-page">
+    <h1 class="faq-title">Frequently Asked Questions</h1>
+    <div class="faq-search">
+        <input type="text" id="faq-search" placeholder="Search FAQ...">
+    </div>
+    <div class="faq-filters">
+        <button type="button" class="faq-filter active" data-category="all">All</button>
+        <?php foreach ($block->getCategories() as $category) { ?>
+            <button type="button" class="faq-filter" data-category="<?= $escaper->escapeHtmlAttr($category) ?>">
+                <?= $escaper->escapeHtml($category) ?>
+            </button>
+        <?php } ?>
+    </div>
+    <div class="faq-list">
+        <?php foreach ($faqs as $faq) { ?>
+            <div class="faq-item" data-category="<?= $escaper->escapeHtmlAttr($faq['category']) ?>">
+                <button type="button" class="faq-question">
+                    <?= $escaper->escapeHtml($faq['question']) ?>
+                </button>
+                <div class="faq-answer">
+                    <p>
+                        <?= $escaper->escapeHtml($faq['answer']) ?>
+                    </p>
+                </div>
+            </div>
+        <?php } ?>
+    </div>
+</div>

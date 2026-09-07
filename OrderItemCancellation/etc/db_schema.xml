@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+
+    <table name="order_cancellation_request" resource="sales" engine="innodb" comment="Customer Order Cancellation Requests">
+        <column xsi:type="int" name="request_id" unsigned="true" nullable="false" identity="true" comment="Request ID"/>
+        <column xsi:type="varchar" name="request_token" nullable="false" length="64" comment="Duplicate Prevention Token"/>
+        <column xsi:type="int" name="order_id" unsigned="true" nullable="false" comment="Order ID"/>
+        <column xsi:type="varchar" name="order_increment_id" nullable="false" length="50" comment="Order Increment ID"/>
+        <column xsi:type="int" name="customer_id" unsigned="true" nullable="false" comment="Customer ID"/>
+        <column xsi:type="decimal" name="grand_total" nullable="false" precision="20" scale="4" default="0.0000" comment="Cancelled Grand Total"/>
+        <column xsi:type="decimal" name="base_grand_total" nullable="false" precision="20" scale="4" default="0.0000" comment="Cancelled Base Grand Total"/>
+        <column xsi:type="timestamp" name="created_at" nullable="false" default="CURRENT_TIMESTAMP" on_update="false" comment="Created At"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="request_id"/>
+        </constraint>
+        <constraint xsi:type="unique" referenceId="CODILAR_CANCEL_REQUEST_TOKEN_UNQ">
+            <column name="request_token"/>
+        </constraint>
+        <constraint xsi:type="foreign" referenceId="CODILAR_CANCEL_REQUEST_ORDER_ID_FK" table="order_cancellation_request" column="order_id" referenceTable="sales_order" referenceColumn="entity_id" onDelete="CASCADE"/>
+        <index referenceId="CODILAR_CANCEL_REQUEST_ORDER_ID_IDX" indexType="btree">
+            <column name="order_id"/>
+        </index>
+    </table>
+
+    <table name="order_item_cancellation" resource="sales" engine="innodb" comment="Customer Order Item Cancellation History">
+        <column xsi:type="int" name="item_cancellation_id" unsigned="true" nullable="false" identity="true" comment="Item Cancellation ID"/>
+        <column xsi:type="int" name="request_id" unsigned="true" nullable="false" comment="Cancellation Request ID"/>
+        <column xsi:type="int" name="order_item_id" unsigned="true" nullable="false" comment="Order Item ID"/>
+        <column xsi:type="varchar" name="sku" nullable="false" length="255" comment="SKU Snapshot"/>
+        <column xsi:type="varchar" name="product_name" nullable="false" length="255" comment="Product Name Snapshot"/>
+        <column xsi:type="decimal" name="qty_cancelled" nullable="false" precision="12" scale="4" comment="Cancelled Quantity"/>
+        <column xsi:type="decimal" name="row_total" nullable="false" precision="20" scale="4" default="0.0000" comment="Cancelled Row Total"/>
+        <column xsi:type="decimal" name="base_row_total" nullable="false" precision="20" scale="4" default="0.0000" comment="Cancelled Base Row Total"/>
+        <column xsi:type="decimal" name="tax_amount" nullable="false" precision="20" scale="4" default="0.0000" comment="Cancelled Tax Amount"/>
+        <column xsi:type="decimal" name="base_tax_amount" nullable="false" precision="20" scale="4" default="0.0000" comment="Cancelled Base Tax Amount"/>
+        <column xsi:type="decimal" name="discount_amount" nullable="false" precision="20" scale="4" default="0.0000" comment="Cancelled Discount Amount"/>
+        <column xsi:type="decimal" name="base_discount_amount" nullable="false" precision="20" scale="4" default="0.0000" comment="Cancelled Base Discount Amount"/>
+        <column xsi:type="decimal" name="grand_total" nullable="false" precision="20" scale="4" default="0.0000" comment="Cancelled Grand Total"/>
+        <column xsi:type="decimal" name="base_grand_total" nullable="false" precision="20" scale="4" default="0.0000" comment="Cancelled Base Grand Total"/>
+        <column xsi:type="timestamp" name="created_at" nullable="false" default="CURRENT_TIMESTAMP" on_update="false" comment="Created At"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="item_cancellation_id"/>
+        </constraint>
+        <constraint xsi:type="foreign" referenceId="CODILAR_CANCEL_ITEM_REQUEST_ID_FK" table="order_item_cancellation" column="request_id" referenceTable="order_cancellation_request" referenceColumn="request_id" onDelete="CASCADE"/>
+        <constraint xsi:type="foreign" referenceId="CODILAR_CANCEL_ITEM_ORDER_ITEM_ID_FK" table="order_item_cancellation" column="order_item_id" referenceTable="sales_order_item" referenceColumn="item_id" onDelete="CASCADE"/>
+        <constraint xsi:type="unique" referenceId="CODILAR_CANCEL_REQUEST_ITEM_UNQ">
+            <column name="request_id"/>
+            <column name="order_item_id"/>
+        </constraint>
+    </table>
+</schema>

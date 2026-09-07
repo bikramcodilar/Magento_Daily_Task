@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <preference for="Codilar\HelloWorld\Api\MessageInterface" type="Codilar\HelloWorld\Model\Message2"/>
+    <preference for="Codilar\HelloWorld\Api\GreetingInterface" type="Codilar\HelloWorld\Model\Greeting"/>
+</config>

@@ -1,0 +1,73 @@
+<?php
+/** @var \Magento\Catalog\Block\Product\View $block */
+/** @var \Magento\Framework\Escaper $escaper */
+$product = $block->getProduct();
+?>
+
+<div class="box-tocart">
+    <div class="actions">
+        <button type="button" id="product-enquiry-button" class="action primary">
+            <span><?= $escaper->escapeHtml(__('Product Enquiry')) ?></span>
+        </button>
+    </div>
+</div>
+
+<div id="product-enquiry-modal" style="display: none;">
+    <div id="product-enquiry-message"></div>
+
+    <div class="field required">
+        <label class="label" for="enquiry-name">
+            <span><?= $escaper->escapeHtml(__('Name')) ?></span>
+        </label>
+        <div class="control">
+            <input type="text" id="enquiry-name" class="input-text" required>
+        </div>
+    </div>
+
+    <div class="field required">
+        <label class="label" for="enquiry-email">
+            <span><?= $escaper->escapeHtml(__('Email')) ?></span>
+        </label>
+        <div class="control">
+            <input type="email" id="enquiry-email" class="input-text" required>
+        </div>
+    </div>
+
+    <div class="field">
+        <label class="label" for="enquiry-sku">
+            <span><?= $escaper->escapeHtml(__('SKU')) ?></span>
+        </label>
+        <div class="control">
+            <input type="text" id="enquiry-sku" class="input-text" value="<?= $escaper->escapeHtmlAttr($product->getSku()) ?>" readonly>
+        </div>
+    </div>
+
+    <div class="field required">
+        <label class="label" for="enquiry-quantity">
+            <span><?= $escaper->escapeHtml(__('Quantity')) ?></span>
+        </label>
+        <div class="control">
+            <input type="number" id="enquiry-quantity" class="input-text" min="1" step="1" value="1" required>
+        </div>
+    </div>
+
+    <input type="hidden" id="enquiry-product-id" value="<?= (int) $product->getId() ?>">
+
+    <input type="hidden" id="enquiry-form-key" value="<?= $escaper->escapeHtmlAttr($block->getFormKey()) ?>">
+
+    <br>
+
+    <button type="button" id="product-enquiry-submit" class="action primary">
+        <span><?= $escaper->escapeHtml(__('Submit Enquiry')) ?></span>
+    </button>
+</div>
+
+<script type="text/x-magento-init">
+    {
+        "#product-enquiry-modal": {
+            "Codilar_ProductEnquiry/js/product-enquiry": {
+                "submitUrl": "<?= $escaper->escapeUrl($block->getUrl('productenquiry/index/submit')) ?>"
+            }
+        }
+    }
+</script>
