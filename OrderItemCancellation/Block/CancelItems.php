@@ -6,7 +6,6 @@ use Codilar\OrderItemCancellation\Service\PartialCancellationService;
 use Magento\Framework\Registry;
 use Magento\Framework\View\Element\Template;
 use Magento\Sales\Model\Order;
-use Magento\Sales\Model\Order\Item;
 
 class CancelItems extends Template
 {
@@ -23,7 +22,7 @@ class CancelItems extends Template
 
     public function getOrder(): ?Order
     {
-        $order = $this->registry->registry('current_order');
+        // $order = $this->registry->registry('current_order');
 
         return $order instanceof Order ? $order : null;
     }
@@ -37,11 +36,6 @@ class CancelItems extends Template
             && !empty($this->getCancelableItems());
     }
 
-    /**
-     * Version 1 intentionally supports only simple and virtual items.
-     *
-     * @return Item[]
-     */
     public function getCancelableItems(): array
     {
         $order = $this->getOrder();

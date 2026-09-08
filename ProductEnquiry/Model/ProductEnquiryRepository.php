@@ -1,5 +1,4 @@
 <?php
-
 namespace Codilar\ProductEnquiry\Model;
 
 use Codilar\ProductEnquiry\Api\Data\ProductEnquiryInterface;
@@ -13,13 +12,11 @@ class ProductEnquiryRepository implements ProductEnquiryRepositoryInterface
         private readonly ProductEnquiryResource $productEnquiryResource
     ) {
     }
-
     /**
      * @throws CouldNotSaveException
      */
-    public function save(
-        ProductEnquiryInterface $productEnquiry
-    ): ProductEnquiryInterface {
+    public function save(ProductEnquiryInterface $productEnquiry): ProductEnquiryInterface
+    {
         try {
             $this->productEnquiryResource->save($productEnquiry);
         } catch (\Exception $exception) {
@@ -28,7 +25,6 @@ class ProductEnquiryRepository implements ProductEnquiryRepositoryInterface
                 $exception
             );
         }
-
         return $productEnquiry;
     }
 }

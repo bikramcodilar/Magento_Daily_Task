@@ -5,11 +5,8 @@ define([
     'use strict';
 
     return function (config, element) {
-        var $modal = $(element);
-
-        // Move the modal outside Magento's Add to Cart form.
+        let $modal = $(element);
         $modal.appendTo('body');
-
         modal({
             type: 'popup',
             responsive: true,
@@ -17,28 +14,22 @@ define([
             title: $.mage.__('Product Enquiry'),
             buttons: []
         }, $modal);
-
         $('#product-enquiry-button').on('click', function () {
             $('#product-enquiry-message').empty();
             $modal.modal('openModal');
         });
-
         $('#product-enquiry-submit').on('click', function () {
-            var name = $('#enquiry-name').val().trim();
-            var email = $('#enquiry-email').val().trim();
-            var quantity = $('#enquiry-quantity').val();
-            var $message = $('#product-enquiry-message');
-
+            let name = $('#enquiry-name').val().trim();
+            let email = $('#enquiry-email').val().trim();
+            let quantity = $('#enquiry-quantity').val();
+            let $message = $('#product-enquiry-message');
             $message.empty();
-
             if (!name || !email || !quantity || Number(quantity) <= 0) {
                 $message
                     .addClass('message message-error')
                     .text($.mage.__('Please fill all required fields correctly.'));
-
                 return;
             }
-
             $.ajax({
                 url: config.submitUrl,
                 type: 'POST',
@@ -56,7 +47,6 @@ define([
                         .removeClass('message-error')
                         .addClass('message message-success')
                         .text(response.message);
-
                     $('#enquiry-name, #enquiry-email').val('');
                     $('#enquiry-quantity').val(1);
                 } else {

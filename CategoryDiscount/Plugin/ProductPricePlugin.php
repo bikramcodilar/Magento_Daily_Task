@@ -4,6 +4,7 @@ use Magento\Catalog\Model\Product;
 
 class ProductPricePlugin
 {
+
     private const int CATEGORY_ID = 14;
     private const int DISCOUNT_PERCENT = 5;
     public function afterGetFinalPrice(
