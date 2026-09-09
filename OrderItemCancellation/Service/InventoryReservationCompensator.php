@@ -1,8 +1,12 @@
 <?php
+declare(strict_types=1);
 
 namespace Codilar\OrderItemCancellation\Service;
 
-use Magento\Catalog\Model\Indexer\Product\Price\Processor as PriceProcessor;
+use Magento\Framework\Exception\CouldNotSaveException;
+use Magento\Framework\Exception\InputException;
+use Magento\Framework\Exception\LocalizedException;
+use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\InventorySalesApi\Api\Data\ItemToSellInterfaceFactory;
 use Magento\InventorySalesApi\Api\Data\SalesChannelInterface;
 use Magento\InventorySalesApi\Api\Data\SalesChannelInterfaceFactory;
@@ -16,7 +20,6 @@ use Magento\Store\Api\WebsiteRepositoryInterface;
 class InventoryReservationCompensator
 {
     public function __construct(
-        private readonly PriceProcessor $priceProcessor,
         private readonly ItemToSellInterfaceFactory $itemToSellFactory,
         private readonly PlaceReservationsForSalesEventInterface $placeReservationsForSalesEvent,
         private readonly SalesChannelInterfaceFactory $salesChannelFactory,
@@ -26,8 +29,18 @@ class InventoryReservationCompensator
     ) {
     }
 
-    public function compensate(Item $orderItem, float $quantity): void
-    {
+    /**
+     * Compensate MSI reservation for cancelled quantity.
+     *
+     * @throws NoSuchEntityException
+     * @throws CouldNotSaveException
+     * @throws LocalizedException
+     * @throws InputException
+     */
+    public function compensate(
+        Item $orderItem,
+        float $quantity
+    ): void {
         if ($quantity <= 0 || !$orderItem->getProductId()) {
             return;
         }
@@ -39,27 +52,31 @@ class InventoryReservationCompensator
         $salesChannel = $this->salesChannelFactory->create([
             'data' => [
                 'type' => SalesChannelInterface::TYPE_WEBSITE,
-                'code' => $website->getCode()
-            ]
+                'code' => $website->getCode(),
+            ],
         ]);
 
         $salesEventExtension = $this->salesEventExtensionFactory->create([
             'data' => [
-                'objectIncrementId' => (string) $orderItem->getOrder()->getIncrementId()
-            ]
+                'objectIncrementId' => (string) $orderItem
+                    ->getOrder()
+                    ->getIncrementId(),
+            ],
         ]);
 
         $salesEvent = $this->salesEventFactory->create([
             'type' => SalesEventInterface::EVENT_ORDER_CANCELED,
             'objectType' => SalesEventInterface::OBJECT_TYPE_ORDER,
-            'objectId' => (string) $orderItem->getOrderId()
+            'objectId' => (string) $orderItem->getOrderId(),
         ]);
 
-        $salesEvent->setExtensionAttributes($salesEventExtension);
+        $salesEvent->setExtensionAttributes(
+            $salesEventExtension
+        );
 
         $itemToSell = $this->itemToSellFactory->create([
             'sku' => (string) $orderItem->getSku(),
-            'qty' => $quantity
+            'qty' => $quantity,
         ]);
 
         $this->placeReservationsForSalesEvent->execute(
@@ -67,7 +84,5 @@ class InventoryReservationCompensator
             $salesChannel,
             $salesEvent
         );
-
-        $this->priceProcessor->reindexRow((int) $orderItem->getProductId());
     }
 }

@@ -1,86 +1,64 @@
 <?php
 /** @var \Codilar\OrderItemCancellation\Block\CancelItems $block */
+/** @var \Magento\Framework\Escaper $escaper */
 $order = $block->getOrder();
 ?>
 
-<?php if ($block->canShowCancellationForm()): ?>
+<?php if ($block->canShowCancellationForm()) { ?>
     <div class="block block-order-cancellation">
         <div class="block-title">
-            <strong><?= $block->escapeHtml(__('Cancel Items')) ?></strong>
+            <strong><?= $escaper->escapeHtml(__('Cancel Items')) ?></strong>
         </div>
-
         <div class="block-content">
             <p>
-                <?= $block->escapeHtml(
+                <?= $escaper->escapeHtml(
                     __('Only unshipped and uninvoiced quantities can be cancelled.')
                 ) ?>
             </p>
-
-            <form action="<?= $block->escapeUrl($block->getSubmitUrl()) ?>"
-                  method="post"
-                  data-mage-init='{"validation":{}}'>
-
+            <form action="<?= $escaper->escapeUrl($block->getSubmitUrl()) ?>" method="post" data-mage-init='{"validation":{}}'>
                 <?= $block->getBlockHtml('formkey') ?>
-
-                <input type="hidden"
-                       name="order_id"
-                       value="<?= (int) $order->getId() ?>">
-
-                <input type="hidden"
-                       name="request_token"
-                       value="<?= $block->escapeHtmlAttr($block->getRequestToken()) ?>">
-
+                <input type="hidden" name="order_id" value="<?= (int) $order->getId() ?>">
+                <input type="hidden" name="request_token" value="<?= $escaper->escapeHtmlAttr($block->getRequestToken()) ?>">
                 <div class="table-wrapper">
                     <table class="data table table-order-items">
                         <thead>
                         <tr>
-                            <th><?= $block->escapeHtml(__('Product')) ?></th>
-                            <th><?= $block->escapeHtml(__('Ordered')) ?></th>
-                            <th><?= $block->escapeHtml(__('Already Cancelled')) ?></th>
-                            <th><?= $block->escapeHtml(__('Available to Cancel')) ?></th>
-                            <th><?= $block->escapeHtml(__('Cancel Quantity')) ?></th>
+                            <th><?= $escaper->escapeHtml(__('Product')) ?></th>
+                            <th><?= $escaper->escapeHtml(__('Ordered')) ?></th>
+                            <th><?= $escaper->escapeHtml(__('Already Cancelled')) ?></th>
+                            <th><?= $escaper->escapeHtml(__('Available to Cancel')) ?></th>
+                            <th><?= $escaper->escapeHtml(__('Cancel Quantity')) ?></th>
                         </tr>
                         </thead>
-
                         <tbody>
-                        <?php foreach ($block->getCancelableItems() as $item): ?>
+                        <?php foreach ($block->getCancelableItems() as $item) { ?>
                             <tr>
                                 <td>
-                                    <?= $block->escapeHtml($item->getName()) ?>
+                                    <?= $escaper->escapeHtml($item->getName()) ?>
                                     <br>
                                     <small>
-                                        <?= $block->escapeHtml(__('SKU: %1', $item->getSku())) ?>
+                                        <?= $escaper->escapeHtml(__('SKU: %1', $item->getSku())) ?>
                                     </small>
                                 </td>
-
-                                <td><?= $block->escapeHtml($item->getQtyOrdered() * 1) ?></td>
-                                <td><?= $block->escapeHtml($item->getQtyCanceled() * 1) ?></td>
-                                <td><?= $block->escapeHtml($item->getQtyToCancel() * 1) ?></td>
-
+                                <td><?= $escaper->escapeHtml($item->getQtyOrdered() * 1) ?></td>
+                                <td><?= $escaper->escapeHtml($item->getQtyCanceled() * 1) ?></td>
+                                <td><?= $escaper->escapeHtml($item->getQtyToCancel() * 1) ?></td>
                                 <td>
-                                    <input type="number"
-                                           class="input-text"
-                                           name="items[<?= (int) $item->getId() ?>]"
-                                           value="0"
-                                           min="0"
-                                           max="<?= $block->escapeHtmlAttr($item->getQtyToCancel()) ?>"
-                                           step="0.0001"
-                                           data-validate='{"validate-number":true}'>
+                                    <input type="number" class="input-text" name="items[<?= (int) $item->getId() ?>]" value="0" min="0" max="<?= $escaper->escapeHtmlAttr($item->getQtyToCancel()) ?>" step="0.0001" data-validate='{"validate-number":true}'>
                                 </td>
                             </tr>
-                        <?php endforeach; ?>
+                        <?php } ?>
                         </tbody>
                     </table>
                 </div>
-
                 <div class="actions-toolbar">
                     <div class="primary">
                         <button type="submit" class="action primary">
-                            <span><?= $block->escapeHtml(__('Cancel Selected Quantities')) ?></span>
+                            <span><?= $escaper->escapeHtml(__('Cancel Selected Quantities')) ?></span>
                         </button>
                     </div>
                 </div>
             </form>
         </div>
     </div>
-<?php endif; ?>
+<?php } ?>

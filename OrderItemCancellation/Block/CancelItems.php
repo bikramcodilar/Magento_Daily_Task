@@ -1,77 +1,92 @@
 <?php
+declare(strict_types=1);
 
 namespace Codilar\OrderItemCancellation\Block;
 
 use Codilar\OrderItemCancellation\Service\PartialCancellationService;
-use Magento\Framework\Registry;
+use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\View\Element\Template;
+use Magento\Sales\Api\OrderRepositoryInterface;
 use Magento\Sales\Model\Order;
+use Random\RandomException;
 
 class CancelItems extends Template
 {
     private ?string $requestToken = null;
-
+    private ?Order $order = null;
     public function __construct(
         Template\Context $context,
-        private readonly Registry $registry,
         private readonly PartialCancellationService $partialCancellationService,
+        private readonly OrderRepositoryInterface $orderRepository,
         array $data = []
     ) {
         parent::__construct($context, $data);
     }
-
     public function getOrder(): ?Order
     {
-        // $order = $this->registry->registry('current_order');
-
-        return $order instanceof Order ? $order : null;
+        if ($this->order !== null) {
+            return $this->order;
+        }
+        $orderId = (int) $this->getRequest()->getParam('order_id');
+        if ($orderId <= 0) {
+            return null;
+        }
+        try {
+            $this->order = $this->orderRepository->get($orderId);
+        } catch (NoSuchEntityException) {
+            return null;
+        }
+        return $this->order;
     }
-
     public function canShowCancellationForm(): bool
     {
         $order = $this->getOrder();
-
-        return $order
+        return $order !== null
             && $this->partialCancellationService->isOrderEligible($order)
             && !empty($this->getCancelableItems());
     }
-
+    /**
+     * @return Order\Item[]
+     */
     public function getCancelableItems(): array
     {
         $order = $this->getOrder();
-
-        if (!$order) {
+        if ($order === null) {
             return [];
         }
-
         $items = [];
-
         foreach ($order->getAllItems() as $item) {
             if (
                 $item->getParentItemId()
-                || !in_array($item->getProductType(), ['simple', 'virtual'], true)
+                || !in_array(
+                    $item->getProductType(),
+                    ['simple', 'virtual'],
+                    true
+                )
                 || (float) $item->getQtyToCancel() <= 0
             ) {
                 continue;
             }
-
             $items[] = $item;
         }
-
         return $items;
     }
-
+    /**
+     * @throws RandomException
+     */
     public function getRequestToken(): string
     {
         if ($this->requestToken === null) {
-            $this->requestToken = bin2hex(random_bytes(32));
+            $this->requestToken = bin2hex(
+                random_bytes(32)
+            );
         }
-
         return $this->requestToken;
     }
-
     public function getSubmitUrl(): string
     {
-        return $this->getUrl('orderitemcancel/cancel/submit');
+        return $this->getUrl(
+            'orderitemcancel/cancel/submit'
+        );
     }
 }

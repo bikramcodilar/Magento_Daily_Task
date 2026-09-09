@@ -4,36 +4,41 @@ namespace Codilar\OrderItemCancellation\Controller\Cancel;
 
 use Codilar\OrderItemCancellation\Service\PartialCancellationService;
 use Magento\Customer\Model\Session as CustomerSession;
-use Magento\Framework\App\Action\Action;
-use Magento\Framework\App\Action\Context;
 use Magento\Framework\App\Action\HttpPostActionInterface;
+use Magento\Framework\App\ActionInterface;
 use Magento\Framework\Controller\Result\Redirect;
-use Magento\Framework\Controller\ResultFactory;
+use Magento\Framework\Controller\Result\RedirectFactory;
 use Magento\Framework\Exception\LocalizedException;
+use Magento\Framework\App\RequestInterface;
+use Magento\Framework\Message\ManagerInterface;
 
-class Submit extends Action implements HttpPostActionInterface
+class Submit implements ActionInterface, HttpPostActionInterface
 {
     public function __construct(
-        Context $context,
+        private readonly RequestInterface $request,
+        private readonly RedirectFactory $redirectFactory,
         private readonly CustomerSession $customerSession,
-        private readonly PartialCancellationService $partialCancellationService
+        private readonly PartialCancellationService $partialCancellationService,
+        private readonly ManagerInterface $messageManager
     ) {
-        parent::__construct($context);
     }
 
     public function execute(): Redirect
     {
-        /** @var Redirect $redirect */
-        $redirect = $this->resultFactory->create(ResultFactory::TYPE_REDIRECT);
-
+        $orderId = (int) $this->request->getParam('order_id');
+        $redirect = $this->redirectFactory->create();
         if (!$this->customerSession->isLoggedIn()) {
-            return $redirect->setPath('customer/account/login');
+            return $redirect->setPath(
+                'customer/account/login'
+            );
         }
-
-        $orderId = (int) $this->getRequest()->getParam('order_id');
-        $items = (array) $this->getRequest()->getParam('items', []);
-        $requestToken = (string) $this->getRequest()->getParam('request_token');
-
+        $items = (array) $this->request->getParam(
+            'items',
+            []
+        );
+        $requestToken = (string) $this->request->getParam(
+            'request_token'
+        );
         try {
             $this->partialCancellationService->cancel(
                 $orderId,
@@ -41,18 +46,25 @@ class Submit extends Action implements HttpPostActionInterface
                 $items,
                 $requestToken
             );
-
             $this->messageManager->addSuccessMessage(
-                __('The selected item quantities were cancelled successfully.')
+                __(
+                    'The selected item quantities were cancelled successfully.'
+                )
             );
         } catch (LocalizedException $exception) {
-            $this->messageManager->addErrorMessage($exception->getMessage());
+            $this->messageManager->addErrorMessage(
+                $exception->getMessage()
+            );
         } catch (\Throwable $exception) {
             $this->messageManager->addErrorMessage(
-                __('Unable to cancel the selected quantities. Please try again.')
+                __(
+                    'Unable to cancel the selected quantities. Please try again.'
+                )
             );
         }
-
-        return $redirect->setPath('sales/order/view', ['order_id' => $orderId]);
+        return $redirect->setPath(
+            'sales/order/view',
+            ['order_id' => $orderId]
+        );
     }
 }
