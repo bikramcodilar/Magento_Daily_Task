@@ -8,14 +8,12 @@ use Magento\Sales\Model\Order\Item;
 class CancellationCalculator
 {
     /**
-     * Calculate financial amounts for cancelled quantity.
-     *
-     * @return array<string, float>
+     * @param Item $orderItem
+     * @param float $requestedQty
+     * @return float[]
      */
-    public function calculate(
-        Item $orderItem,
-        float $requestedQty
-    ): array {
+    public function calculate(Item $orderItem, float $requestedQty): array
+    {
         $orderedQty = (float) $orderItem->getQtyOrdered();
         if ($orderedQty <= 0) {
             return [
@@ -55,6 +53,12 @@ class CancellationCalculator
             'base_grand_total' => $baseGrandTotal,
         ];
     }
+
+    /**
+     * @param float $amount
+     * @param float $factor
+     * @return float
+     */
     private function proRate(float $amount, float $factor): float
     {
         return round(

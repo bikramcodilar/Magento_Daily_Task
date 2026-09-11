@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+
+<routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Webapi:etc/webapi.xsd">
+    <route url="/V1/product-enquiries/:enquiryId" method="GET">
+        <service class="Codilar\ProductEnquiryREST\Api\ProductEnquiryRepositoryInterface" method="getById"/>
+        <resources>
+            <resource ref="Codilar_ProductEnquiryREST::product_enquiry"/>
+        </resources>
+    </route>
+    <route url="/V1/product-enquiries" method="GET">
+        <service class="Codilar\ProductEnquiryREST\Api\ProductEnquiryRepositoryInterface" method="getList"/>
+        <resources>
+            <resource ref="Codilar_ProductEnquiryREST::product_enquiry"/>
+        </resources>
+    </route>
+    <route url="/V1/product-enquiries" method="POST">
+        <service class="Codilar\ProductEnquiryREST\Api\ProductEnquiryRepositoryInterface" method="save"/>
+        <resources>
+            <resource ref="Codilar_ProductEnquiryREST::product_enquiry"/>
+        </resources>
+    </route>
+    <route url="/V1/product-enquiries/:enquiryId" method="PUT">
+        <service class="Codilar\ProductEnquiryREST\Api\ProductEnquiryRepositoryInterface" method="update"/>
+        <resources>
+            <resource ref="Codilar_ProductEnquiryREST::product_enquiry"/>
+        </resources>
+    </route>
+    <route url="/V1/product-enquiries/:enquiryId" method="DELETE">
+        <service class="Codilar\ProductEnquiryREST\Api\ProductEnquiryRepositoryInterface" method="deleteById"/>
+        <resources>
+            <resource ref="Codilar_ProductEnquiryREST::product_enquiry"/>
+        </resources>
+    </route>
+</routes>

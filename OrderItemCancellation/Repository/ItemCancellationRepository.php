@@ -9,11 +9,17 @@ use Magento\Framework\Exception\AlreadyExistsException;
 
 class ItemCancellationRepository implements ItemCancellationRepositoryInterface
 {
+    /**
+     * @param ItemCancellationResource $resource
+     */
     public function __construct(
         private readonly ItemCancellationResource $resource
     ) {
     }
+
     /**
+     * @param ItemCancellation $itemCancellation
+     * @return ItemCancellation
      * @throws AlreadyExistsException
      */
     public function save(ItemCancellation $itemCancellation): ItemCancellation

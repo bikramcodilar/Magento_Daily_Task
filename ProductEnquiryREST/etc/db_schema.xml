@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+    <table name="product_enquiry_rest" resource="default" engine="innodb" comment="Product Enquiries">
+        <column xsi:type="int" name="enquiry_id" unsigned="true" nullable="false" identity="true" comment="Enquiry ID"/>
+        <column xsi:type="varchar" name="name" nullable="false" length="255" comment="Customer Name"/>
+        <column xsi:type="varchar" name="email" nullable="false" length="255" comment="Customer Email"/>
+        <column name="address" xsi:type="text" nullable="false" comment="Customer Address"/>
+        <column xsi:type="varchar" name="sku" nullable="false" length="255" comment="Product SKU"/>
+        <column xsi:type="decimal" name="quantity" nullable="false" precision="12" scale="4" unsigned="true" comment="Requested Quantity"/>
+        <column xsi:type="timestamp" name="created_at" nullable="false" default="CURRENT_TIMESTAMP" on_update="false" comment="Created At"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="enquiry_id"/>
+        </constraint>
+    </table>
+</schema>

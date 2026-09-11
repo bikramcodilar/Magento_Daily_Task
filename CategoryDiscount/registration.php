@@ -2,8 +2,4 @@
 
 use Magento\Framework\Component\ComponentRegistrar;
 
-ComponentRegistrar::register(
-    ComponentRegistrar::MODULE,
-    'Codilar_CategoryDiscount',
-    __DIR__
-);
+ComponentRegistrar::register(ComponentRegistrar::MODULE, 'Codilar_CategoryDiscount', __DIR__);

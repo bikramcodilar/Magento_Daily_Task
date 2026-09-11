@@ -12,13 +12,21 @@ use Magento\Framework\Exception\NoSuchEntityException;
 
 class CancellationRequestRepository implements CancellationRequestRepositoryInterface
 {
+    /**
+     * @param CancellationRequestResource $resource
+     * @param CancellationRequestFactory $requestFactory
+     * @param CollectionFactory $collectionFactory
+     */
     public function __construct(
         private readonly CancellationRequestResource $resource,
         private readonly CancellationRequestFactory $requestFactory,
         private readonly CollectionFactory $collectionFactory
     ) {
     }
+
     /**
+     * @param CancellationRequest $request
+     * @return CancellationRequest
      * @throws AlreadyExistsException
      */
     public function save(CancellationRequest $request): CancellationRequest
@@ -28,6 +36,8 @@ class CancellationRequestRepository implements CancellationRequestRepositoryInte
     }
 
     /**
+     * @param int $requestId
+     * @return CancellationRequest
      * @throws NoSuchEntityException
      */
     public function getById(int $requestId): CancellationRequest
@@ -46,6 +56,8 @@ class CancellationRequestRepository implements CancellationRequestRepositoryInte
     }
 
     /**
+     * @param string $requestToken
+     * @return CancellationRequest
      * @throws NoSuchEntityException
      */
     public function getByToken(string $requestToken): CancellationRequest

@@ -4,11 +4,7 @@
     <acl>
         <resources>
             <resource id="Magento_Backend::admin">
-                <resource
-                    id="Codilar_FreeShipping::config"
-                    title="Free Shipping Configuration"
-                    sortOrder="10"
-                />
+                <resource id="Codilar_FreeShipping::config" title="Free Shipping Configuration" sortOrder="10"/>
             </resource>
         </resources>
     </acl>

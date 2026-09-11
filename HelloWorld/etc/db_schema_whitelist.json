@@ -1,0 +1,12 @@
+{
+    "codilar_employee": {
+        "column": {
+            "employee_id": true,
+            "name": true,
+            "email": true
+        },
+        "constraint": {
+            "PRIMARY": true
+        }
+    }
+}

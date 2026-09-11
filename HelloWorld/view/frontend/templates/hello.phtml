@@ -1,12 +1,13 @@
 <?php
 /** @var \Codilar\HelloWorld\Block\Hello $block */
+/** @var \Magento\Framework\Escaper $escaper */
 ?>
 
 <div class="hello-message">
-    <h1>Hello, <?= $block->escapeHtml($block->getCustomerName()) ?>!</h1>
-    <p><?= $block->escapeHtml($block->getDescription()) ?></p>
+    <h1>Hello, <?= $escaper->escapeHtml($block->getCustomerName()) ?>!</h1>
+    <p><?= $escaper->escapeHtml($block->getDescription()) ?></p>
     <p>
         Current Time:
-        <?= $block->escapeHtml($block->getCurrentTime()) ?>
+        <?= $escaper->escapeHtml($block->getCurrentTime()) ?>
     </p>
 </div>

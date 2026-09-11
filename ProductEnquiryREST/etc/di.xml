@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <preference for="Codilar\ProductEnquiryREST\Api\ProductEnquiryRepositoryInterface" type="Codilar\ProductEnquiryREST\Model\ProductEnquiryRepository"/>
+    <preference for="Codilar\ProductEnquiryREST\Api\Data\ProductEnquiryInterface" type="Codilar\ProductEnquiryREST\Model\ProductEnquiry"/>
+    <preference for="Codilar\ProductEnquiryREST\Api\Data\ApiResponseInterface" type="Codilar\ProductEnquiryREST\Model\ApiResponse"/>
+</config>

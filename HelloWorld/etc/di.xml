@@ -5,4 +5,5 @@
         <plugin name="codilar_helloworld_message_plugin" type="Codilar\HelloWorld\Plugin\MessagePlugin"/>
     </type>
     <preference for="Codilar\HelloWorld\Api\EmployeeRepositoryInterface" type="Codilar\HelloWorld\Model\EmployeeRepository"/>
+    <preference for="Codilar\HelloWorld\Api\Data\EmployeeInterface" type="Codilar\HelloWorld\Model\Employee"/>
 </config>

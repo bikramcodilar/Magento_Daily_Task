@@ -1,0 +1,47 @@
+{
+    "order_cancellation_request": {
+        "column": {
+            "request_id": true,
+            "request_token": true,
+            "order_id": true,
+            "order_increment_id": true,
+            "customer_id": true,
+            "grand_total": true,
+            "base_grand_total": true,
+            "created_at": true
+        },
+        "index": {
+            "ORDER_CANCELLATION_REQUEST_ORDER_ID": true
+        },
+        "constraint": {
+            "PRIMARY": true,
+            "ORDER_CANCELLATION_REQUEST_REQUEST_TOKEN": true,
+            "ORDER_CANCELLATION_REQUEST_ORDER_ID_SALES_ORDER_ENTITY_ID": true
+        }
+    },
+    "order_item_cancellation": {
+        "column": {
+            "item_cancellation_id": true,
+            "request_id": true,
+            "order_item_id": true,
+            "sku": true,
+            "product_name": true,
+            "qty_cancelled": true,
+            "row_total": true,
+            "base_row_total": true,
+            "tax_amount": true,
+            "base_tax_amount": true,
+            "discount_amount": true,
+            "base_discount_amount": true,
+            "grand_total": true,
+            "base_grand_total": true,
+            "created_at": true
+        },
+        "constraint": {
+            "PRIMARY": true,
+            "FK_E64FC8AEA063A3DA4E6562549F335719": true,
+            "ORDER_ITEM_CANCELLATION_ORDER_ITEM_ID_SALES_ORDER_ITEM_ITEM_ID": true,
+            "ORDER_ITEM_CANCELLATION_REQUEST_ID_ORDER_ITEM_ID": true
+        }
+    }
+}

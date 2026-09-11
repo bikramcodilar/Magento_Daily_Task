@@ -34,7 +34,11 @@ class PartialCancellationService
     }
 
     /**
-     * @param array<int|string, mixed> $items
+     * @param int $orderId
+     * @param int $customerId
+     * @param array $items
+     * @param string $requestToken
+     * @return void
      * @throws LocalizedException
      */
     public function cancel(
@@ -82,14 +86,18 @@ class PartialCancellationService
         );
     }
 
+    /**
+     * @param Order $order
+     * @return bool
+     */
     public function isOrderEligible(Order $order): bool
     {
         return $this->validator->isOrderEligible($order);
     }
 
     /**
-     * @param array<int|string, mixed> $items
-     * @return array<int, float>
+     * @param array $items
+     * @return array
      */
     private function prepareRequestedQuantities(
         array $items
@@ -115,7 +123,11 @@ class PartialCancellationService
     }
 
     /**
-     * @param array<int, float> $requestedQuantities
+     * @param int $orderId
+     * @param int $customerId
+     * @param array $requestedQuantities
+     * @param string $requestToken
+     * @return void
      * @throws LocalizedException
      * @throws \Throwable
      */
@@ -126,10 +138,6 @@ class PartialCancellationService
         string $requestToken
     ): void {
         $order = $this->orderRepository->get($orderId);
-
-        /*
-         * 1. Validate order ownership and state.
-         */
         $this->validator->validateOrder(
             $order,
             $customerId
@@ -139,7 +147,6 @@ class PartialCancellationService
             return;
         }
         $orderItems = $this->getOrderItemsById($order);
-
         foreach ($requestedQuantities as $itemId => $requestedQty) {
             if (!isset($orderItems[$itemId])) {
                 throw new LocalizedException(
@@ -183,7 +190,6 @@ class PartialCancellationService
                 'grand_total' => 0.0,
                 'base_grand_total' => 0.0,
             ];
-
             foreach ($requestedQuantities as $itemId => $requestedQty) {
                 $orderItem = $orderItems[$itemId];
                 $amounts = $this->calculator->calculate(
@@ -255,7 +261,8 @@ class PartialCancellationService
     }
 
     /**
-     * @return array<int, Item>
+     * @param Order $order
+     * @return array
      */
     private function getOrderItemsById(Order $order): array
     {
@@ -267,7 +274,8 @@ class PartialCancellationService
     }
 
     /**
-     * Check whether a cancellation request already exists.
+     * @param string $requestToken
+     * @return bool
      */
     private function requestExists(string $requestToken): bool
     {
@@ -280,8 +288,9 @@ class PartialCancellationService
     }
 
     /**
-     * @param array<string, float> $totalAmounts
-     * @param array<string, float> $amounts
+     * @param array $totalAmounts
+     * @param array $amounts
+     * @return void
      */
     private function addAmounts(
         array &$totalAmounts,

@@ -10,6 +10,9 @@ class Collection extends AbstractCollection
 {
     protected $_idFieldName = 'employee_id';
 
+    /**
+     * @return void
+     */
     protected function _construct(): void
     {
         $this->_init(

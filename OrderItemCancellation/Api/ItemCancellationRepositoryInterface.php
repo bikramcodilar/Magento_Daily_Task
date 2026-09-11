@@ -5,5 +5,9 @@ use Codilar\OrderItemCancellation\Model\ItemCancellation;
 
 interface ItemCancellationRepositoryInterface
 {
+    /**
+     * @param ItemCancellation $itemCancellation
+     * @return ItemCancellation
+     */
     public function save(ItemCancellation $itemCancellation): ItemCancellation;
 }

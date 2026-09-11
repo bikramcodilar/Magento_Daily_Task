@@ -2,10 +2,36 @@
 namespace Codilar\HelloWorld\Api\Data;
 interface EmployeeInterface
 {
-    public function getId();
-    public function setId($id);
-    public function getName();
-    public function setName($name);
-    public function getEmail();
-    public function setEmail($email);
+    /**
+     * @return int|null
+     */
+    public function getId(): ?int;
+
+    /**
+     * @param int $id
+     * @return self
+     */
+    public function setId(int $id): self;
+
+    /**
+     * @return string|null
+     */
+    public function getName(): ?string;
+
+    /**
+     * @param string $name
+     * @return self
+     */
+    public function setName(string $name): self;
+
+    /**
+     * @return string|null
+     */
+    public function getEmail(): ?string;
+
+    /**
+     * @param string $email
+     * @return self
+     */
+    public function setEmail(string $email): self;
 }

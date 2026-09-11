@@ -8,6 +8,11 @@ class FreeShipping extends Template
 {
     private const string XML_PATH_THRESHOLD = 'codilar_freeshipping/general/threshold';
 
+    /**
+     * @param ScopeConfigInterface $scopeConfig
+     * @param Template\Context $context
+     * @param array $data
+     */
     public function __construct(
         private readonly ScopeConfigInterface $scopeConfig,
         Template\Context $context,
@@ -15,6 +20,10 @@ class FreeShipping extends Template
     ) {
         parent::__construct($context, $data);
     }
+
+    /**
+     * @return float
+     */
     public function getThreshold(): float
     {
         return (float) $this->scopeConfig->getValue(

@@ -3,22 +3,10 @@
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
     <body>
         <referenceContainer name="product.info.form.content">
-            <block
-                class="Codilar\FreeShipping\Block\FreeShipping"
-                name="codilar.free.shipping"
-                template="Codilar_FreeShipping::free_shipping.phtml"
-                before="product.info.addtocart"
-                cacheable="false"
-            />
+            <block class="Codilar\FreeShipping\Block\FreeShipping" name="codilar.free.shipping" template="Codilar_FreeShipping::free_shipping.phtml" before="product.info.addtocart" cacheable="false"/>
         </referenceContainer>
         <referenceBlock name="product.info.options.wrapper.bottom">
-            <block
-                class="Codilar\FreeShipping\Block\FreeShipping"
-                name="codilar.free.shipping.options"
-                template="Codilar_FreeShipping::free_shipping.phtml"
-                before="product.info.addtocart.additional"
-                cacheable="false"
-            />
+            <block class="Codilar\FreeShipping\Block\FreeShipping" name="codilar.free.shipping.options" template="Codilar_FreeShipping::free_shipping.phtml" before="product.info.addtocart.additional" cacheable="false"/>
         </referenceBlock>
     </body>
 </page>

@@ -1,6 +1,5 @@
 <?php
 declare(strict_types=1);
-
 namespace Codilar\OrderItemCancellation\Service;
 
 use Magento\Sales\Model\Order;
@@ -9,7 +8,10 @@ use Magento\Sales\Model\Order\Item;
 class OrderCancellationManager
 {
     /**
-     * @param array<string, float> $amounts
+     * @param Item $orderItem
+     * @param float $qty
+     * @param array $amounts
+     * @return void
      */
     public function applyItemCancellation(Item $orderItem, float $qty, array $amounts): void
     {
@@ -27,7 +29,9 @@ class OrderCancellationManager
     }
 
     /**
-     * @param array<string, float> $amounts
+     * @param Order $order
+     * @param array $amounts
+     * @return void
      */
     public function applyOrderCancellation(Order $order, array $amounts): void
     {
@@ -65,6 +69,10 @@ class OrderCancellationManager
         );
     }
 
+    /**
+     * @param Order $order
+     * @return bool
+     */
     public function isEntireOrderCancelled(Order $order): bool
     {
         foreach ($order->getAllItems() as $item) {
@@ -82,11 +90,15 @@ class OrderCancellationManager
         return true;
     }
 
-    //    public function finalizeOrder(Order $order): void
-    //    {
-    //        $order->setState(Order::STATE_CANCELED);
-    //        $order->setStatus($order->getConfig()->getStateDefaultStatus(
-    //            Order::STATE_CANCELED
-    //        ));
-    //    }
+    /**
+     * @param Order $order
+     * @return void
+     */
+    //        public function finalizeOrder(Order $order): void
+    //        {
+    //            $order->setState(Order::STATE_CANCELED);
+    //            $order->setStatus($order->getConfig()->getStateDefaultStatus(
+    //                Order::STATE_CANCELED
+    //            ));
+    //        }
 }

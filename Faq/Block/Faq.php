@@ -4,6 +4,9 @@ namespace Codilar\Faq\Block;
 use Magento\Framework\View\Element\Template;
 class Faq extends Template
 {
+    /**
+     * @return array[]
+     */
     public function getFaqs(): array
     {
         return [
@@ -49,6 +52,10 @@ class Faq extends Template
             ],
         ];
     }
+
+    /**
+     * @return array
+     */
     public function getCategories(): array
     {
         $categories = [];

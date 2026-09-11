@@ -13,7 +13,11 @@ class CancellationValidator
         Order::STATE_PENDING_PAYMENT,
         Order::STATE_PROCESSING,
     ];
+
     /**
+     * @param Order $order
+     * @param int $customerId
+     * @return void
      * @throws LocalizedException
      */
     public function validateOrder(Order $order, int $customerId): void
@@ -34,7 +38,11 @@ class CancellationValidator
             );
         }
     }
+
     /**
+     * @param Item $orderItem
+     * @param float $requestedQty
+     * @return void
      * @throws LocalizedException
      */
     public function validateItem(Item $orderItem, float $requestedQty): void
@@ -61,6 +69,11 @@ class CancellationValidator
             );
         }
     }
+
+    /**
+     * @param Order $order
+     * @return bool
+     */
     public function isOrderEligible(Order $order): bool
     {
         return in_array($order->getState(), self::ELIGIBLE_STATES, true);

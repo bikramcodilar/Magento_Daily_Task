@@ -14,6 +14,13 @@ use Magento\Framework\Message\ManagerInterface;
 
 class Submit implements ActionInterface, HttpPostActionInterface
 {
+    /**
+     * @param RequestInterface $request
+     * @param RedirectFactory $redirectFactory
+     * @param CustomerSession $customerSession
+     * @param PartialCancellationService $partialCancellationService
+     * @param ManagerInterface $messageManager
+     */
     public function __construct(
         private readonly RequestInterface $request,
         private readonly RedirectFactory $redirectFactory,
@@ -23,6 +30,9 @@ class Submit implements ActionInterface, HttpPostActionInterface
     ) {
     }
 
+    /**
+     * @return Redirect
+     */
     public function execute(): Redirect
     {
         $orderId = (int) $this->request->getParam('order_id');

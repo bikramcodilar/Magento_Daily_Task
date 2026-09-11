@@ -6,6 +6,9 @@ use Monolog\Logger as MonologLogger;
 
 class Logger extends MonologLogger
 {
+    /**
+     * @param Handler $handler
+     */
     public function __construct(
         Handler $handler
     ) {

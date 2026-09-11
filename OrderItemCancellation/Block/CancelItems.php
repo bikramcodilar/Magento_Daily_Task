@@ -1,6 +1,5 @@
 <?php
 declare(strict_types=1);
-
 namespace Codilar\OrderItemCancellation\Block;
 
 use Codilar\OrderItemCancellation\Service\PartialCancellationService;
@@ -14,6 +13,13 @@ class CancelItems extends Template
 {
     private ?string $requestToken = null;
     private ?Order $order = null;
+
+    /**
+     * @param Template\Context $context
+     * @param PartialCancellationService $partialCancellationService
+     * @param OrderRepositoryInterface $orderRepository
+     * @param array $data
+     */
     public function __construct(
         Template\Context $context,
         private readonly PartialCancellationService $partialCancellationService,
@@ -22,6 +28,10 @@ class CancelItems extends Template
     ) {
         parent::__construct($context, $data);
     }
+
+    /**
+     * @return Order|null
+     */
     public function getOrder(): ?Order
     {
         if ($this->order !== null) {
@@ -38,6 +48,10 @@ class CancelItems extends Template
         }
         return $this->order;
     }
+
+    /**
+     * @return bool
+     */
     public function canShowCancellationForm(): bool
     {
         $order = $this->getOrder();
@@ -45,8 +59,9 @@ class CancelItems extends Template
             && $this->partialCancellationService->isOrderEligible($order)
             && !empty($this->getCancelableItems());
     }
+
     /**
-     * @return Order\Item[]
+     * @return array
      */
     public function getCancelableItems(): array
     {
@@ -71,7 +86,9 @@ class CancelItems extends Template
         }
         return $items;
     }
+
     /**
+     * @return string
      * @throws RandomException
      */
     public function getRequestToken(): string
@@ -83,6 +100,10 @@ class CancelItems extends Template
         }
         return $this->requestToken;
     }
+
+    /**
+     * @return string
+     */
     public function getSubmitUrl(): string
     {
         return $this->getUrl(

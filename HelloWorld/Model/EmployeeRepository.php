@@ -19,9 +19,11 @@ class EmployeeRepository implements EmployeeRepositoryInterface
     }
 
     /**
+     * @param int $id
+     * @return EmployeeInterface
      * @throws NoSuchEntityException
      */
-    public function getById($id): EmployeeInterface
+    public function getById(int $id): \Codilar\HelloWorld\Api\Data\EmployeeInterface
     {
         $employee = $this->employeeFactory->create();
         $this->employeeResource->load(
@@ -37,9 +39,11 @@ class EmployeeRepository implements EmployeeRepositoryInterface
     }
 
     /**
+     * @param EmployeeInterface $employee
+     * @return EmployeeInterface
      * @throws CouldNotSaveException
      */
-    public function save(EmployeeInterface $employee): EmployeeInterface
+    public function save(\Codilar\HelloWorld\Api\Data\EmployeeInterface $employee): \Codilar\HelloWorld\Api\Data\EmployeeInterface
     {
         try {
             $this->employeeResource->save($employee);
@@ -53,9 +57,11 @@ class EmployeeRepository implements EmployeeRepositoryInterface
     }
 
     /**
+     * @param EmployeeInterface $employee
+     * @return bool
      * @throws CouldNotDeleteException
      */
-    public function delete(EmployeeInterface $employee): bool
+    public function delete(\Codilar\HelloWorld\Api\Data\EmployeeInterface $employee): bool
     {
         try {
             $this->employeeResource->delete($employee);

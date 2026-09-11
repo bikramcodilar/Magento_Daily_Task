@@ -9,6 +9,9 @@ use Magento\Framework\Model\ResourceModel\Db\Collection\AbstractCollection;
 class Collection extends AbstractCollection
 {
     protected $_idFieldName = 'request_id';
+    /**
+     * @return void
+     */
     protected function _construct(): void
     {
         $this->_init(

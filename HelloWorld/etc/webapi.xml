@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+
+<routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Webapi:etc/webapi.xsd">
+    <route url="/V1/employees/:id" method="GET">
+        <service class="Codilar\HelloWorld\Api\EmployeeRepositoryInterface" method="getById"/>
+        <resources>
+            <resource ref="anonymous"/>
+        </resources>
+    </route>
+    <route url="/V1/employees" method="POST">
+        <service class="Codilar\HelloWorld\Api\EmployeeRepositoryInterface" method="save"/>
+        <resources>
+            <resource ref="Codilar_HelloWorld::employees"/>
+        </resources>
+    </route>
+    <route url="/V1/employees/:id" method="PUT">
+        <service class="Codilar\HelloWorld\Api\EmployeeRepositoryInterface" method="save"/>
+        <resources>
+            <resource ref="Codilar_HelloWorld::employees"/>
+        </resources>
+    </route>
+</routes>
