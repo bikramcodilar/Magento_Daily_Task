@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <tab id="codilar" translate="label" sortOrder="50">
+            <label>CodilarCafe</label>
+        </tab>
+        <section id="giftbox" translate="label" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>Gift Box</label>
+            <tab>codilar</tab>
+            <resource>Codilar_GiftBox::config</resource>
+            <group id="general" translate="label" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>General</label>
+                <field id="enabled" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enabled</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="required_coffees" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Required Coffee Selections</label>
+                    <comment>
+                        Number of coffee products the customer must select for a gift box.
+                    </comment>
+                </field>
+                <field id="discount" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Box Discount</label>
+                    <comment>
+                        Fixed discount applied to a newly assembled gift box.
+                    </comment>
+                </field>
+                <field id="gift_message_max_length" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Gift Message Maximum Length</label>
+                    <comment>
+                        Maximum number of characters allowed in the gift message.
+                    </comment>
+                </field>
+                <field id="coffee_category" translate="label" type="select" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Coffee Category</label>
+                    <comment>
+                        Category whose products are eligible for gift box coffee selections.
+                    </comment>
+                    <source_model>Codilar\GiftBox\Model\Config\Source\Category</source_model>
+                </field>
+                <field id="equipment_category" translate="label" type="select" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Equipment Category</label>
+                    <comment>
+                        Category whose products are eligible as the optional equipment item.
+                    </comment>
+                    <source_model>Codilar\GiftBox\Model\Config\Source\Category</source_model>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

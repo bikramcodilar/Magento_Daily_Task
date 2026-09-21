@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <preference for="Codilar\GiftBox\Api\Data\GiftBoxAssemblyRequestInterface" type="Codilar\GiftBox\Model\Data\GiftBoxAssemblyRequest"/>
+    <preference for="Codilar\GiftBox\Api\Data\GiftBoxPriceResultInterface" type="Codilar\GiftBox\Model\Data\GiftBoxPriceResult"/>
+    <type name="Magento\Quote\Model\QuoteManagement">
+        <plugin name="codilar_giftbox_quote_management_validation" type="Codilar\GiftBox\Plugin\Quote\QuoteManagementPlugin"/>
+    </type>
+    <type name="Magento\Quote\Model\Quote\Item\ToOrderItem">
+        <plugin name="codilar_giftbox_copy_data_to_order_item" type="Codilar\GiftBox\Plugin\Quote\Item\ToOrderItemPlugin"/>
+    </type>
+    <type name="Magento\InventorySales\Model\AppendReservations">
+        <plugin name="codilar_giftbox_component_reservations" type="Codilar\GiftBox\Plugin\Inventory\AppendGiftBoxComponentReservationsPlugin"/>
+    </type>
+    <type name="Magento\InventorySales\Model\GetItemsToCancelFromOrderItem">
+        <plugin name="codilar_giftbox_cancel_component_reservations" type="Codilar\GiftBox\Plugin\Inventory\GetItemsToCancelFromOrderItemPlugin"/>
+    </type>
+    <type name="Magento\Checkout\Block\Cart\Item\Renderer">
+        <plugin name="codilar_giftbox_cart_renderer" type="Codilar\GiftBox\Plugin\Checkout\Cart\Item\RendererPlugin"/>
+    </type>
+    <type name="Magento\Sales\Block\Order\Items">
+        <plugin name="codilar_giftbox_order_items" type="Codilar\GiftBox\Plugin\Sales\Order\ItemsPlugin"/>
+    </type>
+</config>

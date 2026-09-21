@@ -1,0 +1,197 @@
+<?php
+
+declare(strict_types=1);
+
+/** @var \Codilar\GiftBox\Block\GiftBox $block */
+/** @var \Magento\Framework\Escaper $escaper */
+
+$coffeeProducts = $block->getCoffeeProducts();
+$equipmentProducts = $block->getEquipmentProducts();
+$requiredCoffeeCount = $block->getRequiredCoffeeCount();
+?>
+<script type="text/x-magento-init">
+    {
+        ".giftbox-page": {
+            "Codilar_GiftBox/js/giftbox": {
+                "requiredCoffeeCount": <?= (int) $block->getRequiredCoffeeCount() ?>,
+            "discount": <?= (float) $block->getDiscount() ?>,
+            "giftMessageMaxLength": <?= (int) $block->getGiftMessageMaxLength() ?>,
+            "addUrl": "<?= $escaper->escapeJs(
+                $block->getUrl('giftbox/index/add')
+            ) ?>"
+        }
+    }
+}
+</script>
+<div class="giftbox-page">
+    <div class="giftbox-header">
+        <h1><?= $escaper->escapeHtml(__('Build Your Own Gift Box')) ?></h1>
+        <p>
+            <?= $escaper->escapeHtml(
+                __('Choose %1 coffees and optionally add equipment.', $requiredCoffeeCount)
+            ) ?>
+        </p>
+    </div>
+    <section class="giftbox-section">
+        <h2>
+            <?= $escaper->escapeHtml(
+                __('Choose %1 Coffees', $requiredCoffeeCount)
+            ) ?>
+        </h2>
+        <div
+            class="giftbox-selection-message error"
+            aria-live="polite"
+        ></div>
+        <div class="giftbox-products">
+            <?php foreach ($coffeeProducts as $product): ?>
+                <label class="giftbox-product">
+                    <input
+                        type="checkbox"
+                        name="coffee_skus[]"
+                        value="<?= $escaper->escapeHtmlAttr($product->getSku()) ?>"
+                        data-price="<?= $escaper->escapeHtmlAttr(
+                            (string) $product->getFinalPrice()
+                        ) ?>"
+                    >
+                    <span class="giftbox-product-name">
+                        <?= $escaper->escapeHtml($product->getName()) ?>
+                    </span>
+                    <span class="giftbox-product-price">
+                        ₹<?= $escaper->escapeHtml(
+                            number_format((float) $product->getFinalPrice(), 2)
+                        ) ?>
+                    </span>
+                </label>
+            <?php endforeach; ?>
+        </div>
+    </section>
+    <section class="giftbox-section">
+        <h2>
+            <?= $escaper->escapeHtml(__('Choose Equipment (Optional)')) ?>
+        </h2>
+        <div class="giftbox-products">
+            <label class="giftbox-product">
+                <input
+                    type="radio"
+                    name="equipment_sku"
+                    value=""
+                    checked
+                >
+                <span class="giftbox-product-name">
+                    <?= $escaper->escapeHtml(__('No Equipment')) ?>
+                </span>
+            </label>
+            <?php foreach ($equipmentProducts as $product): ?>
+                <label class="giftbox-product">
+                    <input
+                        type="radio"
+                        name="equipment_sku"
+                        value="<?= $escaper->escapeHtmlAttr($product->getSku()) ?>"
+                        data-price="<?= $escaper->escapeHtmlAttr(
+                            (string) $product->getFinalPrice()
+                        ) ?>"
+                    >
+                    <span class="giftbox-product-name">
+                        <?= $escaper->escapeHtml($product->getName()) ?>
+                    </span>
+                    <span class="giftbox-product-price">
+                        ₹<?= $escaper->escapeHtml(
+                            number_format((float) $product->getFinalPrice(), 2)
+                        ) ?>
+                    </span>
+                </label>
+            <?php endforeach; ?>
+        </div>
+    </section>
+
+    <section class="giftbox-section">
+        <h2>
+            <?= $escaper->escapeHtml(__('Gift Message')) ?>
+        </h2>
+        <div class="giftbox-message">
+            <label for="giftbox-gift-message">
+                <?= $escaper->escapeHtml(__('Gift Message')) ?>
+            </label>
+            <textarea
+                id="giftbox-gift-message"
+                name="gift_message"
+                maxlength="<?= $escaper->escapeHtmlAttr(
+                    (string) $block->getGiftMessageMaxLength()
+                ) ?>"
+                rows="5"
+                placeholder="<?= $escaper->escapeHtmlAttr(
+                    __('Enter your gift message (optional)')
+                ) ?>"
+            ></textarea>
+            <div class="giftbox-message-info">
+        <span
+            class="giftbox-message-counter"
+            aria-live="polite"
+        >
+            0 / <?= $escaper->escapeHtml(
+                (string) $block->getGiftMessageMaxLength()
+            ) ?>
+        </span>
+            </div>
+        </div>
+    </section>
+    <div
+        class="giftbox-message"
+        data-role="giftbox-message"
+        aria-live="polite"
+        style="display: none;"
+    ></div>
+    <section class="giftbox-summary">
+        <h2>
+            <?= $escaper->escapeHtml(__('Gift Box Summary')) ?>
+        </h2>
+        <div class="giftbox-summary-row">
+        <span>
+            <?= $escaper->escapeHtml(__('Component Subtotal')) ?>
+        </span>
+            <span>
+            ₹<span class="giftbox-subtotal">0.00</span>
+        </span>
+        </div>
+        <div class="giftbox-summary-row">
+        <span>
+            <?= $escaper->escapeHtml(__('Discount')) ?>
+        </span>
+            <span>
+            - ₹<span class="giftbox-discount">
+                <?= $escaper->escapeHtml(
+                    number_format($block->getDiscount(), 2)
+                ) ?>
+            </span>
+        </span>
+        </div>
+        <div class="giftbox-summary-row giftbox-total">
+            <strong>
+                <?= $escaper->escapeHtml(__('Gift Box Price')) ?>
+            </strong>
+            <strong>
+                ₹<span class="giftbox-price">0.00</span>
+            </strong>
+        </div>
+        <button
+            type="button"
+            class="action primary giftbox-add-to-cart"
+            disabled
+        >
+            <span class="giftbox-button-text">
+                <?= $escaper->escapeHtml(
+                    __('Add Gift Box to Cart')
+                ) ?>
+            </span>
+
+            <span
+                class="giftbox-button-loading"
+                style="display: none;"
+                >
+                <?= $escaper->escapeHtml(
+                    __('Adding...')
+                ) ?>
+            </span>
+        </button>
+    </section>
+</div>
