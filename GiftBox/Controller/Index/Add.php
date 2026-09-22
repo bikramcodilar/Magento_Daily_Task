@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Codilar\GiftBox\Controller\Index;
 
-use Codilar\GiftBox\Model\Config;
 use Codilar\GiftBox\Model\Data\GiftBoxAssemblyRequestFactory;
 use Codilar\GiftBox\Model\GiftBoxAssemblyValidator;
 use Codilar\GiftBox\Model\Pricing\GiftBoxPriceCalculator;
@@ -26,7 +25,6 @@ class Add implements HttpPostActionInterface
         private readonly GiftBoxAssemblyRequestFactory $requestFactory,
         private readonly GiftBoxAssemblyValidator $assemblyValidator,
         private readonly ProductRepositoryInterface $productRepository,
-        private readonly Config $config,
         private readonly GiftBoxPriceCalculator $priceCalculator,
         private readonly GiftBoxQuoteManager $quoteManager,
         private readonly UrlInterface $url
@@ -59,7 +57,7 @@ class Add implements HttpPostActionInterface
                 'success' => true,
                 'message' => __('Gift Box added to cart.'),
                 'item_id' => (int) $item->getId(),
-                'price' => $priceResult->getGiftBoxPrice(),
+                'price' => $priceResult->getComponentSubtotal(),
                 'cart_url' => $this->url->getUrl(
                     'checkout/cart'
                 ),

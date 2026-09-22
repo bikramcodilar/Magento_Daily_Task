@@ -11,7 +11,6 @@ class Config
 {
     private const string XML_PATH_ENABLED = 'giftbox/general/enabled';
     private const string XML_PATH_REQUIRED_COFFEES = 'giftbox/general/required_coffees';
-    private const string XML_PATH_DISCOUNT = 'giftbox/general/discount';
     private const string XML_PATH_GIFT_MESSAGE_MAX_LENGTH = 'giftbox/general/gift_message_max_length';
     private const string XML_PATH_COFFEE_CATEGORY = 'giftbox/general/coffee_category';
     private const string XML_PATH_EQUIPMENT_CATEGORY = 'giftbox/general/equipment_category';
@@ -39,17 +38,6 @@ class Config
     {
         return (int) $this->scopeConfig->getValue(
             self::XML_PATH_REQUIRED_COFFEES,
-            ScopeInterface::SCOPE_STORE
-        );
-    }
-
-    /**
-     * @return float
-     */
-    public function getDiscount(): float
-    {
-        return (float) $this->scopeConfig->getValue(
-            self::XML_PATH_DISCOUNT,
             ScopeInterface::SCOPE_STORE
         );
     }

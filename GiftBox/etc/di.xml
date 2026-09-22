@@ -21,4 +21,7 @@
     <type name="Magento\Sales\Block\Order\Items">
         <plugin name="codilar_giftbox_order_items" type="Codilar\GiftBox\Plugin\Sales\Order\ItemsPlugin"/>
     </type>
+    <type name="Magento\Checkout\Model\Cart">
+        <plugin name="codilar_giftbox_cart_quantity" type="Codilar\GiftBox\Plugin\Checkout\CartQuantityPlugin"/>
+    </type>
 </config>

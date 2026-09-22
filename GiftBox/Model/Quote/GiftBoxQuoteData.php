@@ -30,9 +30,7 @@ class GiftBoxQuoteData
             'equipment_sku' => $request->getEquipmentSku(),
             'gift_message' => $request->getGiftMessage(),
             'component_prices' => $priceResult->getComponentPrices(),
-            'component_subtotal' => $priceResult->getComponentSubtotal(),
-            'discount' => $priceResult->getDiscount(),
-            'gift_box_price' => $priceResult->getGiftBoxPrice(),
+            'component_subtotal' => $priceResult->getComponentSubtotal()
         ];
         return $this->json->serialize($data);
     }

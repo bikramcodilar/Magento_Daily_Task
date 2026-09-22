@@ -20,18 +20,14 @@
                     <comment>
                         Number of coffee products the customer must select for a gift box.
                     </comment>
-                </field>
-                <field id="discount" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Box Discount</label>
-                    <comment>
-                        Fixed discount applied to a newly assembled gift box.
-                    </comment>
+                    <validate>validate-digits validate-greater-than-zero</validate>
                 </field>
                 <field id="gift_message_max_length" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Gift Message Maximum Length</label>
                     <comment>
                         Maximum number of characters allowed in the gift message.
                     </comment>
+                    <validate>validate-digits validate-greater-than-zero</validate>
                 </field>
                 <field id="coffee_category" translate="label" type="select" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Coffee Category</label>

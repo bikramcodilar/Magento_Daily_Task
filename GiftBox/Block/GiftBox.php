@@ -54,12 +54,4 @@ class GiftBox extends Template
     {
         return $this->config->getGiftMessageMaxLength();
     }
-
-    /**
-     * @return float
-     */
-    public function getDiscount(): float
-    {
-        return $this->config->getDiscount();
-    }
 }

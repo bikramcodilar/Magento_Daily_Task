@@ -14,7 +14,6 @@ $requiredCoffeeCount = $block->getRequiredCoffeeCount();
         ".giftbox-page": {
             "Codilar_GiftBox/js/giftbox": {
                 "requiredCoffeeCount": <?= (int) $block->getRequiredCoffeeCount() ?>,
-            "discount": <?= (float) $block->getDiscount() ?>,
             "giftMessageMaxLength": <?= (int) $block->getGiftMessageMaxLength() ?>,
             "addUrl": "<?= $escaper->escapeJs(
                 $block->getUrl('giftbox/index/add')
@@ -151,18 +150,6 @@ $requiredCoffeeCount = $block->getRequiredCoffeeCount();
         </span>
             <span>
             ₹<span class="giftbox-subtotal">0.00</span>
-        </span>
-        </div>
-        <div class="giftbox-summary-row">
-        <span>
-            <?= $escaper->escapeHtml(__('Discount')) ?>
-        </span>
-            <span>
-            - ₹<span class="giftbox-discount">
-                <?= $escaper->escapeHtml(
-                    number_format($block->getDiscount(), 2)
-                ) ?>
-            </span>
         </span>
         </div>
         <div class="giftbox-summary-row giftbox-total">

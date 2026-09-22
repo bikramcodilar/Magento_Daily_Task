@@ -10,14 +10,7 @@ class GiftBoxPriceResult implements GiftBoxPriceResultInterface
      * @var float
      */
     private float $componentSubtotal = 0.0;
-    /**
-     * @var float
-     */
-    private float $discount = 0.0;
-    /**
-     * @var float
-     */
-    private float $giftBoxPrice = 0.0;
+
     /**
      * @var array
      */
@@ -37,42 +30,6 @@ class GiftBoxPriceResult implements GiftBoxPriceResultInterface
     public function setComponentSubtotal(float $componentSubtotal): self
     {
         $this->componentSubtotal = $componentSubtotal;
-        return $this;
-    }
-
-    /**
-     * @return float
-     */
-    public function getDiscount(): float
-    {
-        return $this->discount;
-    }
-
-    /**
-     * @param float $discount
-     * @return $this
-     */
-    public function setDiscount(float $discount): self
-    {
-        $this->discount = $discount;
-        return $this;
-    }
-
-    /**
-     * @return float
-     */
-    public function getGiftBoxPrice(): float
-    {
-        return $this->giftBoxPrice;
-    }
-
-    /**
-     * @param float $giftBoxPrice
-     * @return $this
-     */
-    public function setGiftBoxPrice(float $giftBoxPrice): self
-    {
-        $this->giftBoxPrice = $giftBoxPrice;
         return $this;
     }
 

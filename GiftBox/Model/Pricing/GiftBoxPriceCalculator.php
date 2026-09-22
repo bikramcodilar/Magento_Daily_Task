@@ -5,7 +5,6 @@ namespace Codilar\GiftBox\Model\Pricing;
 use Codilar\GiftBox\Api\Data\GiftBoxPriceResultInterface;
 use Codilar\GiftBox\Model\Config;
 use Codilar\GiftBox\Model\Data\GiftBoxPriceResultFactory;
-use Magento\Catalog\Api\Data\ProductInterface;
 
 class GiftBoxPriceCalculator
 {
@@ -26,18 +25,11 @@ class GiftBoxPriceCalculator
         $componentPrices = [];
         foreach ($products as $product) {
             $price = (float) $product->getFinalPrice(1);
-            $componentSubtotal += $price;
             $componentPrices[$product->getSku()] = $price;
+            $componentSubtotal += $price;
         }
-        $discount = $this->config->getDiscount();
-        $giftBoxPrice = max(
-            0.0,
-            $componentSubtotal - $discount
-        );
         return $this->priceResultFactory->create()
             ->setComponentSubtotal($componentSubtotal)
-            ->setDiscount($discount)
-            ->setGiftBoxPrice($giftBoxPrice)
             ->setComponentPrices($componentPrices);
     }
 }

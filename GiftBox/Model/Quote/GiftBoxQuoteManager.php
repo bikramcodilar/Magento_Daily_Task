@@ -7,11 +7,12 @@ namespace Codilar\GiftBox\Model\Quote;
 use Codilar\GiftBox\Api\Data\GiftBoxAssemblyRequestInterface;
 use Codilar\GiftBox\Api\Data\GiftBoxPriceResultInterface;
 use Codilar\GiftBox\Model\GiftBoxProduct;
+use Exception;
 use Magento\Checkout\Model\Session as CheckoutSession;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Quote\Model\Quote\Item;
-use Exception;
+
 class GiftBoxQuoteManager
 {
     public function __construct(
@@ -56,10 +57,10 @@ class GiftBoxQuoteManager
             $priceResult
         );
         $item->setCustomPrice(
-            $priceResult->getGiftBoxPrice()
+            $priceResult->getComponentSubtotal()
         );
         $item->setOriginalCustomPrice(
-            $priceResult->getGiftBoxPrice()
+            $priceResult->getComponentSubtotal()
         );
         $item->setData(
             'giftbox_data',

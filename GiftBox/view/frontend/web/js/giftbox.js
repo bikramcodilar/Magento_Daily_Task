@@ -12,8 +12,6 @@ define([
             10
         );
 
-        var discount = parseFloat(config.discount) || 0;
-
         var $coffeeInputs = $container.find(
             'input[name="coffee_skus[]"]'
         );
@@ -32,10 +30,6 @@ define([
 
         var $subtotal = $container.find(
             '.giftbox-subtotal'
-        );
-
-        var $discount = $container.find(
-            '.giftbox-discount'
         );
 
         var $giftBoxPrice = $container.find(
@@ -75,18 +69,14 @@ define([
 
         function updateGiftMessageCounter() {
             var message = $giftMessage.val() || '';
-
             var characterCount = Array.from(message).length;
-
             $giftMessageCounter.text(
                 characterCount +
                 ' / ' +
                 giftMessageMaxLength
             );
-
             $giftMessageCounter
                 .removeClass('warning error');
-
             if (characterCount >= giftMessageMaxLength) {
                 $giftMessageCounter.addClass('error');
             } else if (
@@ -98,7 +88,6 @@ define([
 
         function calculateSubtotal() {
             var subtotal = 0;
-
             $coffeeInputs
                 .filter(':checked')
                 .each(function () {
@@ -106,7 +95,6 @@ define([
                         $(this).data('price')
                     ) || 0;
                 });
-
             $equipmentInputs
                 .filter(':checked')
                 .each(function () {
@@ -114,34 +102,21 @@ define([
                         $(this).data('price')
                     ) || 0;
                 });
-
             return subtotal;
         }
 
         function updatePrice() {
             var subtotal = calculateSubtotal();
-
-            var giftBoxPrice = Math.max(
-                0,
-                subtotal - discount
-            );
-
             $subtotal.text(
                 subtotal.toFixed(2)
             );
-
-            $discount.text(
-                discount.toFixed(2)
-            );
-
             $giftBoxPrice.text(
-                giftBoxPrice.toFixed(2)
+                subtotal.toFixed(2)
             );
         }
 
         function updateCoffeeSelection() {
             var selectedCount = getSelectedCoffeeCount();
-
             if (selectedCount >= requiredCoffeeCount) {
                 $coffeeInputs
                     .not(':checked')
@@ -152,7 +127,6 @@ define([
                     false
                 );
             }
-
             updateMessage();
             updateButton();
             updatePrice();
@@ -160,7 +134,6 @@ define([
 
         function updateMessage() {
             var selectedCount = getSelectedCoffeeCount();
-
             if (selectedCount === requiredCoffeeCount) {
                 $selectionMessage
                     .text(
@@ -168,10 +141,8 @@ define([
                     )
                     .removeClass('error')
                     .addClass('success');
-
                 return;
             }
-
             $selectionMessage
                 .text(
                     'Please select ' +
@@ -186,7 +157,6 @@ define([
 
         function updateButton() {
             var selectedCount = getSelectedCoffeeCount();
-
             $addButton.prop(
                 'disabled',
                 selectedCount !== requiredCoffeeCount
@@ -195,7 +165,6 @@ define([
 
         function addGiftBoxToCart() {
             var coffeeSkus = [];
-
             $coffeeInputs
                 .filter(':checked')
                 .each(function () {
@@ -203,29 +172,22 @@ define([
                         $(this).val()
                     );
                 });
-
             var equipmentSku = $equipmentInputs
                 .filter(':checked')
                 .val() || '';
-
             var giftMessage = $giftMessage
                 .val() || '';
-
             hideMessage();
-
             setLoading(true);
-
             $.ajax({
                 url: addUrl,
                 type: 'POST',
                 dataType: 'json',
-
                 data: {
                     coffee_skus: coffeeSkus,
                     equipment_sku: equipmentSku,
                     gift_message: giftMessage
                 },
-
                 success: function (response) {
                     if (!response.success) {
                         showMessage(
@@ -233,42 +195,33 @@ define([
                             'Unable to add Gift Box to cart.',
                             'error'
                         );
-
                         setLoading(false);
-
                         return;
                     }
-
                     customerData.reload(
                         ['cart'],
                         true
                     );
-
                     showMessage(
                         response.message ||
                         'Gift Box added to cart.',
                         'success'
                     );
-
                     setTimeout(function () {
                         window.location.href =
                             response.cart_url;
                     }, 500);
                 },
-
                 error: function (xhr) {
                     var response = xhr.responseJSON;
-
                     var message =
                         response && response.message
                             ? response.message
                             : 'Unable to add Gift Box to cart.';
-
                     showMessage(
                         message,
                         'error'
                     );
-
                     setLoading(false);
                 }
             });
@@ -292,16 +245,12 @@ define([
         function setLoading(isLoading) {
             if (isLoading) {
                 $addButton.prop('disabled', true);
-
                 $buttonText.hide();
                 $buttonLoading.show();
-
                 return;
             }
-
             $buttonText.show();
             $buttonLoading.hide();
-
             updateButton();
         }
 
