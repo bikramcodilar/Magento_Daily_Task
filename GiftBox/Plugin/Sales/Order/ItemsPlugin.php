@@ -4,8 +4,7 @@ declare(strict_types=1);
 
 namespace Codilar\GiftBox\Plugin\Sales\Order;
 
-use Codilar\GiftBox\Model\Quote\GiftBoxQuoteDataReader;
-use Magento\Catalog\Api\ProductRepositoryInterface;
+use Codilar\GiftBox\Model\Order\GiftBoxContentProvider;
 use Magento\Framework\Escaper;
 use Magento\Sales\Block\Order\Items;
 use Magento\Sales\Model\Order\Item;
@@ -13,8 +12,7 @@ use Magento\Sales\Model\Order\Item;
 class ItemsPlugin
 {
     public function __construct(
-        private readonly GiftBoxQuoteDataReader $giftBoxQuoteDataReader,
-        private readonly ProductRepositoryInterface $productRepository,
+        private readonly GiftBoxContentProvider $giftBoxContentProvider,
         private readonly Escaper $escaper
     ) {
     }
@@ -33,13 +31,13 @@ class ItemsPlugin
         if ($item->getSku() !== 'gift-box') {
             return $result;
         }
-        $giftBoxData = $this->giftBoxQuoteDataReader->get($item);
+        $giftBoxData = $this->giftBoxContentProvider->getData($item);
         if ($giftBoxData === []) {
             return $result;
         }
-        $coffeeSkus = $giftBoxData['coffee_skus'] ?? [];
-        $equipmentSku = $giftBoxData['equipment_sku'] ?? null;
-        $giftMessage = $giftBoxData['gift_message'] ?? null;
+        $coffeeNames = $this->giftBoxContentProvider->getCoffeeNames($item);
+        $equipmentName = $this->giftBoxContentProvider->getEquipmentName($item);
+        $giftMessage = $this->giftBoxContentProvider->getGiftMessage($item);
         $html = '<tr class="giftbox-order-details">';
         $html .= '<td colspan="5">';
         $html .= '<div class="giftbox-order-content">';
@@ -48,7 +46,7 @@ class ItemsPlugin
             __('Gift Box Contents')
         );
         $html .= '</strong>';
-        if (!empty($coffeeSkus)) {
+        if (!empty($coffeeNames)) {
             $html .= '<div class="giftbox-order-section">';
             $html .= '<strong>';
             $html .= $this->escaper->escapeHtml(
@@ -56,17 +54,15 @@ class ItemsPlugin
             );
             $html .= '</strong>';
             $html .= '<ul>';
-            foreach ($coffeeSkus as $sku) {
+            foreach ($coffeeNames as $coffeeName) {
                 $html .= '<li>';
-                $html .= $this->escaper->escapeHtml(
-                    $this->getProductName((string) $sku)
-                );
+                $html .= $this->escaper->escapeHtml($coffeeName);
                 $html .= '</li>';
             }
             $html .= '</ul>';
             $html .= '</div>';
         }
-        if ($equipmentSku !== null && $equipmentSku !== '') {
+        if ($equipmentName !== null && $equipmentName !== '') {
             $html .= '<div class="giftbox-order-section">';
             $html .= '<strong>';
             $html .= $this->escaper->escapeHtml(
@@ -74,27 +70,20 @@ class ItemsPlugin
             );
             $html .= '</strong>';
             $html .= '<div>';
-            $html .= $this->escaper->escapeHtml(
-                $this->getProductName((string) $equipmentSku)
-            );
+            $html .= $this->escaper->escapeHtml($equipmentName);
             $html .= '</div>';
             $html .= '</div>';
         }
-        if ($giftMessage !== null && trim((string) $giftMessage) !== '') {
+        if ($giftMessage !== null && trim($giftMessage) !== '') {
             $html .= '<div class="giftbox-order-section">';
-
             $html .= '<strong>';
             $html .= $this->escaper->escapeHtml(
                 __('Gift Message')
             );
             $html .= '</strong>';
-
             $html .= '<div>';
-            $html .= $this->escaper->escapeHtml(
-                (string) $giftMessage
-            );
+            $html .= $this->escaper->escapeHtml($giftMessage);
             $html .= '</div>';
-
             $html .= '</div>';
         }
 
@@ -103,20 +92,5 @@ class ItemsPlugin
         $html .= '</tr>';
 
         return $result . $html;
-    }
-
-    /**
-     * @param string $sku
-     * @return string
-     */
-    private function getProductName(string $sku): string
-    {
-        try {
-            return (string) $this->productRepository
-                ->get($sku)
-                ->getName();
-        } catch (\Magento\Framework\Exception\NoSuchEntityException) {
-            return $sku;
-        }
     }
 }

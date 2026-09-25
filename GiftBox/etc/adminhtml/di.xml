@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Magento\Sales\Block\Adminhtml\Order\View\Items\Renderer\DefaultRenderer">
+        <plugin name="codilar_giftbox_admin_order_item_renderer" type="Codilar\GiftBox\Plugin\Sales\Order\View\Items\Renderer\DefaultRendererPlugin"/>
+    </type>
+</config>

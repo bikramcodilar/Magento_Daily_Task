@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Codilar_ProductEnquiry::enquiry" title="Product Enquiry" module="Codilar_ProductEnquiry" sortOrder="500" action="codilar_productenquiry/enquiry/index" parent="Magento_Sales::sales_operation" resource="Codilar_ProductEnquiry::enquiry"/>
+    </menu>
+</config>

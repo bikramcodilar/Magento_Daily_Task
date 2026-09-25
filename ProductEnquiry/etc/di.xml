@@ -1,4 +1,26 @@
 <?xml version="1.0"?>
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
     <preference for="Codilar\ProductEnquiry\Api\ProductEnquiryRepositoryInterface" type="Codilar\ProductEnquiry\Model\ProductEnquiryRepository"/>
+
+    <virtualType name="Codilar\ProductEnquiry\Model\ResourceModel\ProductEnquiry\Grid\Collection" type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">
+                product_enquiry
+            </argument>
+            <argument name="resourceModel" xsi:type="string">
+                Codilar\ProductEnquiry\Model\ResourceModel\ProductEnquiry
+            </argument>
+        </arguments>
+    </virtualType>
+
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="codilar_productenquiry_enquiry_listing_data_source"
+                      xsi:type="string">
+                    Codilar\ProductEnquiry\Model\ResourceModel\ProductEnquiry\Grid\Collection
+                </item>
+            </argument>
+        </arguments>
+    </type>
 </config>

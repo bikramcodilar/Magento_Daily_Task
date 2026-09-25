@@ -1,0 +1,69 @@
+<?php
+
+declare(strict_types=1);
+
+/** @var \Codilar\GiftBox\Block\Adminhtml\Order\GiftBox $block */
+/** @var \Magento\Framework\Escaper $escaper */
+
+$giftBoxData = $block->getGiftBoxData();
+
+if ($giftBoxData === []) {
+    return;
+}
+
+$coffeeNames = $block->getCoffeeNames();
+$equipmentName = $block->getEquipmentName();
+$giftMessage = $block->getGiftMessage();
+?>
+
+<tr class="giftbox-admin-details">
+    <td colspan="10">
+        <div class="giftbox-admin-content">
+
+            <strong>
+                <?= $escaper->escapeHtml(__('Gift Box Contents')) ?>
+            </strong>
+
+            <?php if (!empty($coffeeNames)): ?>
+                <div class="giftbox-admin-section">
+                    <strong>
+                        <?= $escaper->escapeHtml(__('Coffees')) ?>
+                    </strong>
+
+                    <ul>
+                        <?php foreach ($coffeeNames as $coffeeName): ?>
+                            <li>
+                                <?= $escaper->escapeHtml($coffeeName) ?>
+                            </li>
+                        <?php endforeach; ?>
+                    </ul>
+                </div>
+            <?php endif; ?>
+
+            <?php if ($equipmentName !== null && $equipmentName !== ''): ?>
+                <div class="giftbox-admin-section">
+                    <strong>
+                        <?= $escaper->escapeHtml(__('Equipment')) ?>
+                    </strong>
+
+                    <div>
+                        <?= $escaper->escapeHtml($equipmentName) ?>
+                    </div>
+                </div>
+            <?php endif; ?>
+
+            <?php if ($giftMessage !== null && trim($giftMessage) !== ''): ?>
+                <div class="giftbox-admin-section">
+                    <strong>
+                        <?= $escaper->escapeHtml(__('Gift Message')) ?>
+                    </strong>
+
+                    <div>
+                        <?= $escaper->escapeHtml($giftMessage) ?>
+                    </div>
+                </div>
+            <?php endif; ?>
+
+        </div>
+    </td>
+</tr>

@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<listing xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+    <argument name="data" xsi:type="array">
+        <item name="js_config" xsi:type="array">
+            <item name="provider" xsi:type="string">
+                codilar_productenquiry_enquiry_listing.codilar_productenquiry_enquiry_listing_data_source
+            </item>
+        </item>
+    </argument>
+    <settings>
+        <spinner>product_enquiry</spinner>
+        <deps>
+            <dep>
+                codilar_productenquiry_enquiry_listing.codilar_productenquiry_enquiry_listing_data_source
+            </dep>
+        </deps>
+    </settings>
+
+    <dataSource
+        name="codilar_productenquiry_enquiry_listing_data_source"
+        component="Magento_Ui/js/grid/provider">
+        <settings>
+            <storageConfig>
+                <param name="indexField" xsi:type="string">enquiry_id</param>
+            </storageConfig>
+            <updateUrl path="mui/index/render"/>
+        </settings>
+        <dataProvider
+            name="codilar_productenquiry_enquiry_listing_data_source"
+            class="Magento\Framework\View\Element\UiComponent\DataProvider\DataProvider">
+            <settings>
+                <requestFieldName>enquiry_id</requestFieldName>
+                <primaryFieldName>enquiry_id</primaryFieldName>
+            </settings>
+        </dataProvider>
+    </dataSource>
+    <listingToolbar name="listing_top">
+        <settings>
+            <sticky>true</sticky>
+        </settings>
+<!--        <bookmark name="bookmarks"/>-->
+        <columnsControls name="columns_controls"/>
+        <filters name="listing_filters"/>
+        <massaction name="listing_massaction">
+            <action name="delete">
+                <settings>
+                    <type>delete</type>
+                    <label translate="true">Delete</label>
+                    <url path="codilar_productenquiry/enquiry/massDelete"/>
+                    <confirm>
+                        <title translate="true">Delete Enquiries</title>
+                        <message translate="true">
+                            Are you sure you want to delete the selected enquiries?
+                        </message>
+                    </confirm>
+                </settings>
+            </action>
+        </massaction>
+        <paging name="listing_paging"/>
+    </listingToolbar>
+    <columns name="product_enquiry">
+        <selectionsColumn name="ids">
+            <settings>
+                <indexField>enquiry_id</indexField>
+            </settings>
+        </selectionsColumn>
+        <column name="enquiry_id">
+            <settings>
+                <filter>textRange</filter>
+                <label translate="true">ID</label>
+                <sorting>desc</sorting>
+            </settings>
+        </column>
+        <column name="name">
+            <settings>
+                <filter>text</filter>
+                <label translate="true">Name</label>
+            </settings>
+        </column>
+        <column name="email">
+            <settings>
+                <filter>text</filter>
+                <label translate="true">Email</label>
+            </settings>
+        </column>
+        <column name="sku">
+            <settings>
+                <filter>text</filter>
+                <label translate="true">SKU</label>
+            </settings>
+        </column>
+        <column name="quantity">
+            <settings>
+                <filter>textRange</filter>
+                <label translate="true">Quantity</label>
+            </settings>
+        </column>
+        <column name="created_at">
+            <settings>
+                <filter>dateRange</filter>
+                <dataType>date</dataType>
+                <label translate="true">Created At</label>
+            </settings>
+        </column>
+        <actionsColumn
+            name="actions"
+            class="Codilar\ProductEnquiry\Ui\Component\Listing\Column\Actions">
+            <settings>
+                <label translate="true">Actions</label>
+            </settings>
+        </actionsColumn>
+    </columns>
+</listing>
