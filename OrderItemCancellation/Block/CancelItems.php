@@ -55,9 +55,7 @@ class CancelItems extends Template
     public function canShowCancellationForm(): bool
     {
         $order = $this->getOrder();
-        return $order !== null
-            && $this->partialCancellationService->isOrderEligible($order)
-            && !empty($this->getCancelableItems());
+        return $order !== null && $this->partialCancellationService->isOrderEligible($order)&& !empty($this->getCancelableItems());
     }
 
     /**
@@ -71,15 +69,11 @@ class CancelItems extends Template
         }
         $items = [];
         foreach ($order->getAllItems() as $item) {
-            if (
-                $item->getParentItemId()
-                || !in_array(
-                    $item->getProductType(),
-                    ['simple', 'virtual'],
-                    true
-                )
-                || (float) $item->getQtyToCancel() <= 0
-            ) {
+            if ($item->getParentItemId() || !in_array(
+                $item->getProductType(),
+                ['simple', 'virtual'],
+                true
+            ) || (float) $item->getQtyToCancel() <= 0) {
                 continue;
             }
             $items[] = $item;

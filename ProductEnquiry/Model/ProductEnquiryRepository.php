@@ -7,6 +7,7 @@ use Codilar\ProductEnquiry\Api\ProductEnquiryRepositoryInterface;
 use Codilar\ProductEnquiry\Model\ResourceModel\ProductEnquiry as ProductEnquiryResource;
 use Magento\Framework\Exception\CouldNotDeleteException;
 use Magento\Framework\Exception\CouldNotSaveException;
+use Magento\Framework\Exception\NoSuchEntityException;
 
 class ProductEnquiryRepository implements ProductEnquiryRepositoryInterface
 {
@@ -32,6 +33,30 @@ class ProductEnquiryRepository implements ProductEnquiryRepositoryInterface
                 $exception
             );
         }
+        return $productEnquiry;
+
+    }
+
+    /**
+     * @param int $enquiryId
+     * @return ProductEnquiryInterface
+     * @throws NoSuchEntityException
+     */
+    public function getById(int $enquiryId): ProductEnquiryInterface
+    {
+        $productEnquiry = $this->productEnquiryFactory->create();
+
+        $this->productEnquiryResource->load(
+            $productEnquiry,
+            $enquiryId
+        );
+
+        if (!$productEnquiry->getId()) {
+            throw new NoSuchEntityException(
+                __('Product enquiry with ID %1 does not exist.', $enquiryId)
+            );
+        }
+
         return $productEnquiry;
     }
 

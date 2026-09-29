@@ -63,7 +63,12 @@ class CancellationRequestRepository implements CancellationRequestRepositoryInte
     public function getByToken(string $requestToken): CancellationRequest
     {
         $collection = $this->collectionFactory->create();
-        $request = $collection->addFieldToFilter('request_token', $requestToken)->setPageSize(1)->getFirstItem();
+        $collection->addFieldToFilter(
+            'request_token',
+            $requestToken
+        );
+        $collection->setPageSize(1);
+        $request = $collection->getFirstItem();
         if (!$request->getId()) {
             throw new NoSuchEntityException(
                 __('Cancellation request does not exist.')

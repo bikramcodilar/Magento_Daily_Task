@@ -1,6 +1,7 @@
 <?php
 declare(strict_types=1);
 namespace Codilar\OrderItemCancellation\Model\ResourceModel;
+
 use Magento\Framework\Model\ResourceModel\Db\AbstractDb;
 
 class CancellationRequest extends AbstractDb

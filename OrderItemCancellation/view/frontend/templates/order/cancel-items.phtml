@@ -22,13 +22,13 @@ $order = $block->getOrder();
                 <div class="table-wrapper">
                     <table class="data table table-order-items">
                         <thead>
-                        <tr>
-                            <th><?= $escaper->escapeHtml(__('Product')) ?></th>
-                            <th><?= $escaper->escapeHtml(__('Ordered')) ?></th>
-                            <th><?= $escaper->escapeHtml(__('Already Cancelled')) ?></th>
-                            <th><?= $escaper->escapeHtml(__('Available to Cancel')) ?></th>
-                            <th><?= $escaper->escapeHtml(__('Cancel Quantity')) ?></th>
-                        </tr>
+                            <tr>
+                                <th><?= $escaper->escapeHtml(__('Product')) ?></th>
+                                <th><?= $escaper->escapeHtml(__('Ordered')) ?></th>
+                                <th><?= $escaper->escapeHtml(__('Already Cancelled')) ?></th>
+                                <th><?= $escaper->escapeHtml(__('Available to Cancel')) ?></th>
+                                <th><?= $escaper->escapeHtml(__('Cancel Quantity')) ?></th>
+                            </tr>
                         </thead>
                         <tbody>
                         <?php foreach ($block->getCancelableItems() as $item) { ?>

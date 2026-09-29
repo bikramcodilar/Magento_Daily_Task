@@ -1,30 +1,26 @@
 <?php
-declare(strict_types=1);
 namespace Codilar\OrderItemCancellation\Service;
 
 use Magento\Framework\Exception\LocalizedException;
+use Magento\Sales\Api\Data\OrderInterface;
+use Magento\Sales\Api\Data\OrderItemInterface;
 use Magento\Sales\Model\Order;
-use Magento\Sales\Model\Order\Item;
 
 class CancellationValidator
 {
-    private const array ELIGIBLE_STATES = [
-        Order::STATE_NEW,
-        Order::STATE_PENDING_PAYMENT,
-        Order::STATE_PROCESSING,
-    ];
-
     /**
-     * @param Order $order
+     * @param OrderInterface $order
      * @param int $customerId
      * @return void
      * @throws LocalizedException
      */
-    public function validateOrder(Order $order, int $customerId): void
-    {
+    public function validateOrder(
+        OrderInterface $order,
+        int $customerId
+    ): void {
         if (!$order->getId()) {
             throw new LocalizedException(
-                __('The order does not exist.')
+                __('Order does not exist.')
             );
         }
         if ((int) $order->getCustomerId() !== $customerId) {
@@ -32,29 +28,48 @@ class CancellationValidator
                 __('You are not allowed to cancel this order.')
             );
         }
-        if (!$this->isOrderEligible($order)) {
+        if (!in_array(
+            $order->getState(),
+            [
+                Order::STATE_NEW,
+                Order::STATE_PENDING_PAYMENT,
+                Order::STATE_PROCESSING,
+            ],
+            true
+        )) {
             throw new LocalizedException(
-                __('This order cannot be cancelled.')
+                __('This order is not eligible for cancellation.')
             );
         }
     }
 
     /**
-     * @param Item $orderItem
+     * @param OrderItemInterface $item
      * @param float $requestedQty
      * @return void
      * @throws LocalizedException
      */
-    public function validateItem(Item $orderItem, float $requestedQty): void
-    {
-        if (!$orderItem->getId()) {
+    public function validateItem(
+        OrderItemInterface $item,
+        float $requestedQty
+    ): void {
+        if (!$item->getId()) {
             throw new LocalizedException(
-                __('The selected order item does not exist.')
+                __('Order item does not exist.')
             );
         }
-        if ($orderItem->getParentItemId() || !in_array($orderItem->getProductType(), ['simple', 'virtual'], true)) {
+        if ($item->getParentItemId()) {
             throw new LocalizedException(
-                __('This product cannot be cancelled.')
+                __('Parent order items cannot be cancelled directly.')
+            );
+        }
+        if (!in_array(
+            $item->getProductType(),
+            ['simple', 'virtual'],
+            true
+        )) {
+            throw new LocalizedException(
+                __('This product type cannot be cancelled.')
             );
         }
         if ($requestedQty <= 0) {
@@ -62,20 +77,10 @@ class CancellationValidator
                 __('Cancellation quantity must be greater than zero.')
             );
         }
-        $qtyToCancel = (float) $orderItem->getQtyToCancel();
-        if ($requestedQty > $qtyToCancel) {
+        if ($requestedQty > (float) $item->getQtyToCancel()) {
             throw new LocalizedException(
-                __('You can cancel a maximum of %1 for product %2.', $qtyToCancel, $orderItem->getSku())
+                __('You cannot cancel more than the available quantity.')
             );
         }
-    }
-
-    /**
-     * @param Order $order
-     * @return bool
-     */
-    public function isOrderEligible(Order $order): bool
-    {
-        return in_array($order->getState(), self::ELIGIBLE_STATES, true);
     }
 }

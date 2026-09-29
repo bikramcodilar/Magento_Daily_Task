@@ -18,6 +18,9 @@ class MassDelete extends Action
         parent::__construct($context);
     }
 
+    /**
+     * @return Redirect
+     */
     public function execute(): Redirect
     {
         $selectedIds = $this->getRequest()->getParam('selected', []);

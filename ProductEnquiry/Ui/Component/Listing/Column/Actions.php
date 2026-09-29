@@ -33,6 +33,15 @@ class Actions extends Column
     {
         if (isset($dataSource['data']['items'])) {
             foreach ($dataSource['data']['items'] as &$item) {
+                $item[$this->getData('name')]['edit'] = [
+                    'href' => $this->urlBuilder->getUrl(
+                        'codilar_productenquiry/enquiry/edit',
+                        [
+                            'enquiry_id' => $item['enquiry_id']
+                        ]
+                    ),
+                    'label' => __('Edit'),
+                ];
                 $item[$this->getData('name')]['delete'] = [
                     'href' => $this->urlBuilder->getUrl(
                         'codilar_productenquiry/enquiry/delete',

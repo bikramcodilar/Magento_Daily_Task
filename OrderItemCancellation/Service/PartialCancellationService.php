@@ -70,12 +70,7 @@ class PartialCancellationService
         }
         $this->orderMutex->execute(
             $orderId,
-            function () use (
-                $orderId,
-                $customerId,
-                $requestedQuantities,
-                $requestToken
-            ): void {
+            function () use ($orderId, $customerId, $requestedQuantities, $requestToken): void {
                 $this->processCancellation(
                     $orderId,
                     $customerId,
@@ -103,22 +98,17 @@ class PartialCancellationService
         array $items
     ): array {
         $result = [];
-
         foreach ($items as $itemId => $quantity) {
             if (!is_numeric($itemId) || !is_numeric($quantity)) {
                 continue;
             }
-
             $itemId = (int) $itemId;
             $quantity = (float) $quantity;
-
             if ($itemId <= 0 || $quantity <= 0) {
                 continue;
             }
-
             $result[$itemId] = $quantity;
         }
-
         return $result;
     }
 

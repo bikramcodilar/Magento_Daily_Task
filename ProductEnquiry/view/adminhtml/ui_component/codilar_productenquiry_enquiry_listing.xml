@@ -9,6 +9,13 @@
         </item>
     </argument>
     <settings>
+        <buttons>
+            <button name="add_new">
+                <url path="codilar_productenquiry/enquiry/new"/>
+                <class>primary</class>
+                <label translate="true">Add New Enquiry</label>
+            </button>
+        </buttons>
         <spinner>product_enquiry</spinner>
         <deps>
             <dep>

@@ -1,40 +1,34 @@
 <?php
-declare(strict_types=1);
+
 namespace Codilar\OrderItemCancellation\Service;
 
+use Magento\Sales\Api\Data\OrderItemInterface;
 use Magento\Sales\Model\Order;
-use Magento\Sales\Model\Order\Item;
 
 class OrderCancellationManager
 {
-    /**
-     * @param Item $orderItem
-     * @param float $qty
-     * @param array $amounts
-     * @return void
-     */
-    public function applyItemCancellation(Item $orderItem, float $qty, array $amounts): void
-    {
-        $orderItem->setQtyCanceled(
-            (float) $orderItem->getQtyCanceled() + $qty
+    public function applyItemCancellation(
+        OrderItemInterface $item,
+        float $qty,
+        array $amounts
+    ): void {
+        $item->setQtyCanceled(
+            (float) $item->getQtyCanceled() + $qty
         );
-        $orderItem->setTaxCanceled(
-            (float) $orderItem->getTaxCanceled()
+        $item->setTaxCanceled(
+            (float) $item->getTaxCanceled()
             + $amounts['tax_amount']
         );
-        $orderItem->setDiscountTaxCompensationCanceled(
-            (float) $orderItem->getDiscountTaxCompensationCanceled()
+        $item->setDiscountTaxCompensationCanceled(
+            (float) $item->getDiscountTaxCompensationCanceled()
             + $amounts['discount_tax_compensation_amount']
         );
     }
 
-    /**
-     * @param Order $order
-     * @param array $amounts
-     * @return void
-     */
-    public function applyOrderCancellation(Order $order, array $amounts): void
-    {
+    public function applyOrderCancellation(
+        Order $order,
+        array $amounts
+    ): void {
         $order->setSubtotalCanceled(
             (float) $order->getSubtotalCanceled()
             + $amounts['row_total']
@@ -68,37 +62,4 @@ class OrderCancellationManager
             + $amounts['base_grand_total']
         );
     }
-
-    /**
-     * @param Order $order
-     * @return bool
-     */
-    public function isEntireOrderCancelled(Order $order): bool
-    {
-        foreach ($order->getAllItems() as $item) {
-            if ($item->getParentItemId() || !in_array($item->getProductType(), ['simple', 'virtual'], true)) {
-                continue;
-            }
-            $qtyToCancel = (float) $item->getQtyToCancel();
-            if ($qtyToCancel > 0) {
-                return false;
-            }
-            if ((float) $item->getQtyInvoiced() > 0 || (float) $item->getQtyShipped() > 0) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    /**
-     * @param Order $order
-     * @return void
-     */
-    //        public function finalizeOrder(Order $order): void
-    //        {
-    //            $order->setState(Order::STATE_CANCELED);
-    //            $order->setStatus($order->getConfig()->getStateDefaultStatus(
-    //                Order::STATE_CANCELED
-    //            ));
-    //        }
 }

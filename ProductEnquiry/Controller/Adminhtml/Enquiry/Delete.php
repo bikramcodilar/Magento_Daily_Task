@@ -18,6 +18,9 @@ class Delete extends Action
         parent::__construct($context);
     }
 
+    /**
+     * @return Redirect
+     */
     public function execute(): Redirect
     {
         $enquiryId = (int) $this->getRequest()->getParam('enquiry_id');
