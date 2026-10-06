@@ -1,0 +1,22 @@
+<div class="admin__control-grouped">
+    <input class="admin__control-text"
+           type="text"
+           data-bind="
+               value: value,
+               valueUpdate: valueUpdate,
+               hasFocus: focused,
+               attr: {
+                   name: inputName,
+                   placeholder: placeholder,
+                   'aria-describedby': noticeId,
+                   id: uid,
+                   disabled: disabled
+               }
+           " />
+
+    <button type="button"
+            class="action-secondary"
+            data-bind="click: openProductModal">
+        <span translate="'Add Product'"></span>
+    </button>
+</div>

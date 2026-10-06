@@ -106,9 +106,7 @@
                 <label translate="true">Created At</label>
             </settings>
         </column>
-        <actionsColumn
-            name="actions"
-            class="Codilar\ProductEnquiry\Ui\Component\Listing\Column\Actions">
+        <actionsColumn name="actions" class="Codilar\ProductEnquiry\Ui\Component\Listing\Column\Actions">
             <settings>
                 <label translate="true">Actions</label>
             </settings>

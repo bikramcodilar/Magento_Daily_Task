@@ -37,22 +37,24 @@
         <settings>
             <sticky>true</sticky>
         </settings>
-        <bookmark name="bookmarks"/>
+<!--        <bookmark name="bookmarks"/>-->
         <columnsControls name="columns_controls"/>
         <filters name="listing_filters"/>
         <paging name="listing_paging"/>
     </listingToolbar>
     <columns name="product_columns">
-        <selectionsColumn name="ids">
+        <column name="select_product" component="Codilar_ProductEnquiry/js/grid/columns/product-radio">
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">
-                    <item name="multiple" xsi:type="boolean">false</item>
+                    <item name="bodyTmpl" xsi:type="string">
+                        Codilar_ProductEnquiry/grid/cells/product-radio
+                    </item>
                 </item>
             </argument>
             <settings>
-                <indexField>entity_id</indexField>
+                <label translate="true">Select</label>
             </settings>
-        </selectionsColumn>
+        </column>
         <column name="entity_id">
             <settings>
                 <addField>true</addField>

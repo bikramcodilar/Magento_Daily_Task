@@ -1,0 +1,12 @@
+<input type="radio"
+       data-bind="
+           attr: { name: $col.uid },
+           checked: $col.selectedProductId,
+           checkedValue: $row().entity_id,
+           event: {
+               change: function () {
+                   $col.selectProduct($row());
+               }
+           }
+       "
+/>
