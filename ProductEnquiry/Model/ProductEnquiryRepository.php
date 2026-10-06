@@ -34,7 +34,6 @@ class ProductEnquiryRepository implements ProductEnquiryRepositoryInterface
             );
         }
         return $productEnquiry;
-
     }
 
     /**
@@ -45,18 +44,15 @@ class ProductEnquiryRepository implements ProductEnquiryRepositoryInterface
     public function getById(int $enquiryId): ProductEnquiryInterface
     {
         $productEnquiry = $this->productEnquiryFactory->create();
-
         $this->productEnquiryResource->load(
             $productEnquiry,
             $enquiryId
         );
-
         if (!$productEnquiry->getId()) {
             throw new NoSuchEntityException(
                 __('Product enquiry with ID %1 does not exist.', $enquiryId)
             );
         }
-
         return $productEnquiry;
     }
 
@@ -96,7 +92,6 @@ class ProductEnquiryRepository implements ProductEnquiryRepositoryInterface
         if (empty($enquiryIds)) {
             return false;
         }
-
         try {
             $connection = $this->productEnquiryResource->getConnection();
             $connection->delete(

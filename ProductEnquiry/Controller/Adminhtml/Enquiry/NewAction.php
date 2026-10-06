@@ -21,9 +21,7 @@ class NewAction extends Action
     {
         $resultPage = $this->resultPageFactory->create();
 
-        $resultPage->setActiveMenu(
-            'Magento_Sales::sales_order'
-        );
+        $resultPage->setActiveMenu('Codilar_ProductEnquiry::enquiry');
 
         $resultPage->getConfig()->getTitle()->prepend(
             __('New Product Enquiry')

@@ -77,13 +77,51 @@
                 </validation>
             </settings>
         </field>
-        <field name="sku" formElement="input">
+        <field name="sku" formElement="input" component="Codilar_ProductEnquiry/js/form/element/product-sku">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="imports" xsi:type="array">
+                        <item name="productSelection" xsi:type="string">
+                            codilar_product_selector_listing.codilar_product_selector_listing.product_columns.ids:selected
+                        </item>
+                        <item name="productItems" xsi:type="string">
+                            codilar_product_selector_listing.codilar_product_selector_listing_data_source:data.items
+                        </item>
+                    </item>
+                </item>
+            </argument>
             <settings>
+                <disabled>true</disabled>
                 <dataType>text</dataType>
                 <label translate="true">SKU</label>
                 <dataScope>sku</dataScope>
             </settings>
         </field>
+        <button name="add_product" component="Magento_Ui/js/form/components/button">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="title" xsi:type="string" translate="true">
+                        Add Product
+                    </item>
+                    <item name="label" xsi:type="string" translate="true">
+                        Add Product
+                    </item>
+                    <item name="buttonClasses" xsi:type="string">
+                        action-secondary
+                    </item>
+                    <item name="actions" xsi:type="array">
+                        <item name="0" xsi:type="array">
+                            <item name="targetName" xsi:type="string">
+                                ${$.parentName}.product_selector_modal
+                            </item>
+                            <item name="actionName" xsi:type="string">
+                                openModal
+                            </item>
+                        </item>
+                    </item>
+                </item>
+            </argument>
+        </button>
         <field name="quantity" formElement="input">
             <settings>
                 <dataType>number</dataType>
@@ -91,5 +129,34 @@
                 <dataScope>quantity</dataScope>
             </settings>
         </field>
+        <modal name="product_selector_modal">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="options" xsi:type="array">
+                        <item name="title" xsi:type="string" translate="true">
+                            Add Product
+                        </item>
+                        <item name="type" xsi:type="string">
+                            popup
+                        </item>
+                    </item>
+                </item>
+            </argument>
+            <fieldset name="product_selector">
+                <settings>
+                    <label translate="true">Select Product</label>
+                </settings>
+                <insertListing name="product_selector_listing">
+                    <settings>
+                        <autoRender>true</autoRender>
+                        <ns>codilar_product_selector_listing</ns>
+                        <selectionsProvider>
+                            codilar_product_selector_listing.product_columns.ids
+                        </selectionsProvider>
+                        <dataScope>product_selector</dataScope>
+                    </settings>
+                </insertListing>
+            </fieldset>
+        </modal>
     </fieldset>
 </form>

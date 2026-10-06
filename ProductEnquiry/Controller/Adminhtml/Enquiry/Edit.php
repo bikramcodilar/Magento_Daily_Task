@@ -45,9 +45,7 @@ class Edit extends Action
                 ->setPath('codilar_productenquiry/enquiry/index');
         }
         $resultPage = $this->resultPageFactory->create();
-        $resultPage->setActiveMenu(
-            'Magento_Sales::sales_order'
-        );
+        $resultPage->setActiveMenu('Codilar_ProductEnquiry::enquiry');
         $resultPage->getConfig()->getTitle()->prepend(
             __('Edit Product Enquiry')
         );

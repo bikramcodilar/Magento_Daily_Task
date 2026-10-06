@@ -30,7 +30,13 @@ class Save extends Action
     public function execute(): Redirect
     {
         $data = $this->getRequest()->getPostValue();
+        if (!is_array($data)) {
+            $data = [];
+        }
         $enquiryId = (int)($data['enquiry_id'] ?? 0);
+        $returnPath = $enquiryId
+            ? 'codilar_productenquiry/enquiry/edit'
+            : 'codilar_productenquiry/enquiry/new';
         $email = trim((string)($data['email'] ?? ''));
         if (!$this->emailValidator->isValid($email)) {
             $this->messageManager->addErrorMessage(
@@ -39,7 +45,7 @@ class Save extends Action
             return $this->resultRedirectFactory
                 ->create()
                 ->setPath(
-                    'codilar_productenquiry/enquiry/edit',
+                    $returnPath,
                     ['enquiry_id' => $enquiryId]
                 );
         }
@@ -51,7 +57,7 @@ class Save extends Action
             return $this->resultRedirectFactory
                 ->create()
                 ->setPath(
-                    'codilar_productenquiry/enquiry/edit',
+                    $returnPath,
                     ['enquiry_id' => $enquiryId]
                 );
         }
@@ -65,7 +71,7 @@ class Save extends Action
             return $this->resultRedirectFactory
                 ->create()
                 ->setPath(
-                    'codilar_productenquiry/enquiry/edit',
+                    $returnPath,
                     ['enquiry_id' => $enquiryId]
                 );
         }
@@ -105,7 +111,7 @@ class Save extends Action
             return $this->resultRedirectFactory
                 ->create()
                 ->setPath(
-                    'codilar_productenquiry/enquiry/edit',
+                    $returnPath,
                     ['enquiry_id' => $enquiryId]
                 );
         }

@@ -24,18 +24,14 @@
         </deps>
     </settings>
 
-    <dataSource
-        name="codilar_productenquiry_enquiry_listing_data_source"
-        component="Magento_Ui/js/grid/provider">
+    <dataSource name="codilar_productenquiry_enquiry_listing_data_source" component="Magento_Ui/js/grid/provider">
         <settings>
             <storageConfig>
                 <param name="indexField" xsi:type="string">enquiry_id</param>
             </storageConfig>
             <updateUrl path="mui/index/render"/>
         </settings>
-        <dataProvider
-            name="codilar_productenquiry_enquiry_listing_data_source"
-            class="Magento\Framework\View\Element\UiComponent\DataProvider\DataProvider">
+        <dataProvider name="codilar_productenquiry_enquiry_listing_data_source" class="Magento\Framework\View\Element\UiComponent\DataProvider\DataProvider">
             <settings>
                 <requestFieldName>enquiry_id</requestFieldName>
                 <primaryFieldName>enquiry_id</primaryFieldName>
