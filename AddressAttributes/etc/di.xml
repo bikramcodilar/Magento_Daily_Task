@@ -20,4 +20,9 @@
             type="Codilar\AddressAttributes\Plugin\Quote\CopyAddressAttributesToOrder"
         />
     </type>
+    <type name="Magento\Checkout\Api\ShippingInformationManagementInterface">
+        <plugin name="codilar_validate_shipping_pincode"
+                type="Codilar\AddressAttributes\Plugin\Checkout\ValidateShippingPincode"
+                sortOrder="10"/>
+    </type>
 </config>
