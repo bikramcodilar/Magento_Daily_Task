@@ -1,0 +1,46 @@
+input CreateProductEnquiryInput {
+    name: String!
+    email: String!
+    sku: String!
+    quantity: Float!
+}
+
+type ProductEnquiry {
+    enquiry_id: Int!
+    name: String!
+    email: String!
+    sku: String!
+    quantity: Float!
+    created_at: String!
+}
+
+type ProductEnquiriesResult {
+    items: [ProductEnquiry!]!
+    total_count: Int!
+    page_info: ProductEnquiryPageInfo!
+}
+
+type ProductEnquiryPageInfo {
+    current_page: Int!
+    page_size: Int!
+    total_pages: Int!
+}
+
+extend type Query {
+    productEnquiryById(enquiry_id: Int!): ProductEnquiry
+    @resolver(
+        class: "Codilar\\ProductEnquiry\\Model\\Resolver\\ProductEnquiryById"
+    )
+
+    productEnquiries(sku: String currentPage: Int = 1 pageSize: Int = 20): ProductEnquiriesResult!
+    @resolver(
+        class: "Codilar\\ProductEnquiry\\Model\\Resolver\\ProductEnquiries"
+    )
+}
+
+extend type Mutation {
+    createProductEnquiry(input: CreateProductEnquiryInput!): ProductEnquiry!
+    @resolver(
+        class: "Codilar\\ProductEnquiry\\Model\\Resolver\\CreateProductEnquiry"
+    )
+}
